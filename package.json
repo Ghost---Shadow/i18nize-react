@@ -1,0 +1,38 @@
+{
+  "name": "i18nize-react",
+  "version": "0.0.1",
+  "description": "Internationalize any react app",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint ./src/*",
+    "test": "jest"
+  },
+  "author": "Souradeep Nanda",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/preset-env": "^7.4.4",
+    "@babel/preset-react": "^7.0.0",
+    "babel-jest": "^24.7.1",
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.17.2",
+    "husky": "^2.1.0",
+    "jest": "^24.7.1",
+    "react-test-renderer": "^16.8.6"
+  },
+  "dependencies": {
+    "acorn-jsx-walk": "^1.0.1"
+  },
+  "jest": {
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "/captive-app"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint",
+      "pre-push": "npm test"
+    }
+  }
+}
