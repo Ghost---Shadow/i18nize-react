@@ -21,7 +21,9 @@
     "react-test-renderer": "^16.8.6"
   },
   "dependencies": {
-    "acorn-jsx-walk": "^1.0.1"
+    "acorn-jsx-walk": "^1.0.1",
+    "babel-core": "^6.26.3",
+    "babylon": "^6.18.0"
   },
   "jest": {
     "testPathIgnorePatterns": [

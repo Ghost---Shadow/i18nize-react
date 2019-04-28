@@ -1,23 +1,17 @@
 const fs = require('fs');
-const acorn = require('acorn-jsx-walk');
-
-const walk = acorn.default;
+const babel = require('babel-core');
+const babylon = require('babylon');
 
 const fileName = './captive-app/src/App.js';
+const inputCode = fs.readFileSync(fileName, 'utf8');
 
-const file = fs.readFileSync(fileName, 'utf8');
-
-const strings = [];
-
-walk(file, {
-  Literal({ value }) {
-    strings.push(value.trim());
-  },
+const ast = babylon.parse(inputCode, {
+  sourceType: 'module',
+  plugins: ['jsx'],
 });
 
-const ENGLISH = strings.reduce((acc, item, i) => {
-  acc[`TEXT${i + 1}`] = item;
-  return acc;
-}, {});
+console.log(ast);
 
-console.log(JSON.stringify({ ENGLISH }, null, 2));
+const { code } = babel.transformFromAst(ast, inputCode);
+
+console.log(code);
