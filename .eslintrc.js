@@ -14,6 +14,8 @@ module.exports = {
     sourceType: 'module',
   },
   rules: {
-    'no-console': 0
+    'no-console': 0,
+    // Babel AST transform is not pure
+    'no-param-reassign':0 
   },
 };

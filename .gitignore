@@ -1,2 +1,4 @@
 node_modules
 ./captive-app/node_modules
+
+scratchpad/*
