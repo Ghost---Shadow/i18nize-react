@@ -1,5 +1,8 @@
 {
   "name": "i18nize-react",
+  "bin": {
+    "i18nize-react": "src/index.js"
+  },
   "version": "0.0.1",
   "description": "Internationalize any react app",
   "main": "index.js",

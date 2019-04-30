@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const fs = require('fs');
 const babel = require('babel-core');
 const babylon = require('babylon');
@@ -23,5 +25,7 @@ traverse(ast, {
 });
 
 const { code } = babel.transformFromAst(ast, inputCode);
+
+// console.log(code);
 
 fs.writeFileSync('./scratchpad/output.js', code);
