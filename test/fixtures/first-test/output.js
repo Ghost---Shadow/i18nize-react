@@ -8,16 +8,20 @@ class App extends Component {
     this.state = {
       stuff: 'src/App.js'
     };
+    this.thisHardcodedString = 'Another string';
   }
 
   render() {
     const {
       stuff
     } = this.state;
+    const hardCodedString = 'Some string';
     return <div className="App">
         <div className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <h2>{t(k.SOME_TEXT)}</h2>
+          <p>{hardCodedString}</p>
+          <p>{this.thisHardcodedString}</p>
         </div>
         <p className="App-intro">
           {t(k.SOME_TEXT)}

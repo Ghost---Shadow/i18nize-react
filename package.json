@@ -8,7 +8,9 @@
   "main": "index.js",
   "scripts": {
     "lint": "eslint ./src/*",
-    "test": "jest"
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage"
   },
   "author": "Souradeep Nanda",
   "license": "MIT",
