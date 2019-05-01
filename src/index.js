@@ -7,7 +7,7 @@ const { default: traverse } = require('babel-traverse');
 
 const myPlugin = require('./plugin');
 
-const fileName = './captive-app/src/App.js';
+const fileName = './test/fixtures/first-test/code.js';
 const inputCode = fs.readFileSync(fileName, 'utf8');
 
 const ast = babylon.parse(inputCode, {

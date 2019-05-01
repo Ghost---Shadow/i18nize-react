@@ -1,1 +1,0 @@
-A sample react app demonstrating and documenting all possible issues that may occur
