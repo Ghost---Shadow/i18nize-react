@@ -51,5 +51,12 @@ module.exports = ({ types: t }) => ({
         extractValueAndUpdateTable(t, this.state, path.node.init, key);
       },
     },
+    JSXText: {
+      enter(path) {
+        const coreValue = path.node.value.trim();
+        if (!coreValue.length) return;
+        path.node.value = path.node.value.replace(coreValue, '{t(k.SOME_STRING)}');
+      },
+    },
   },
 });

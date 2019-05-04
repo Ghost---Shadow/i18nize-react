@@ -25,17 +25,17 @@ class App extends Component {
     return <div className="App">
         <div className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
+          <h2>{t(k.SOME_STRING)}</h2>
           <p>{hardCodedString}</p>
           <p>{this.thisHardcodedString}</p>
           <p>{`${hardCodedString} ${this.thisHardcodedString}`}</p>
         </div>
         <p className="App-intro">
-          To get started, edit
+          {t(k.SOME_STRING)}
           {' '}
           <code>{stuff}</code>
           {' '}
-          and save to reload.
+          {t(k.SOME_STRING)}
         </p>
       </div>;
   }
