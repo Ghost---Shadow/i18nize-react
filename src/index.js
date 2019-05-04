@@ -15,7 +15,7 @@ const ast = babylon.parse(inputCode, {
   plugins: ['jsx'],
 });
 
-traverse(ast, myPlugin().visitor);
+traverse(ast, myPlugin(babel).visitor);
 
 const { code } = babel.transformFromAst(ast);
 

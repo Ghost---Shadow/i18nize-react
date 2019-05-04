@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import api from './api';
 
 class App extends Component {
   constructor(props) {
@@ -9,6 +10,11 @@ class App extends Component {
       stuff: 'src/App.js',
     };
     this.thisHardcodedString = 'Another string';
+  }
+
+  componentDidMount() {
+    const route = '/api/post';
+    api.post(route);
   }
 
   render() {
@@ -21,6 +27,7 @@ class App extends Component {
           <h2>Welcome to React</h2>
           <p>{hardCodedString}</p>
           <p>{this.thisHardcodedString}</p>
+          <p>{`${hardCodedString} ${this.thisHardcodedString}`}</p>
         </div>
         <p className="App-intro">
           To get started, edit
