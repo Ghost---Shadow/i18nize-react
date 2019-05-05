@@ -7,7 +7,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      stuff: "t(k.SOME_TEXT)"
+      stuff: t(k.SOME_TEXT)
     };
     this.thisHardcodedString = 'Another string';
   }
@@ -21,7 +21,7 @@ class App extends Component {
     const {
       stuff
     } = this.state;
-    const hardCodedString = "t(k.SOME_TEXT)";
+    const hardCodedString = t(k.SOME_TEXT);
     return <div className="App">
         <div className="App-header">
           <img src={logo} className="App-logo" alt="logo" />

@@ -1,10 +1,10 @@
-const extractValueAndUpdateTable = (t, table, valuedNode, key) => {
-  const { value } = valuedNode;
+const extractValueAndUpdateTable = (t, table, path, key) => {
+  const { value } = path.node;
 
-  if (t.isStringLiteral(valuedNode)) {
+  if (t.isStringLiteral(path.node)) {
     if (!table[key]) table[key] = {};
     table[key].value = value;
-    table[key].node = valuedNode;
+    table[key].path = path;
   }
 };
 
@@ -16,11 +16,10 @@ module.exports = ({ types: t }) => ({
         this.state = {};
       },
       exit() {
-        console.table(this.state);
-
         Object.keys(this.state).forEach((key) => {
           if (this.state[key].valid) {
-            this.state[key].node.value = 't(k.SOME_TEXT)';
+            // TODO: OPTIMIZATION: Use quasi quotes to optimization this
+            this.state[key].path.replaceWithSourceString('t(k.SOME_TEXT)');
           }
         });
       },
@@ -36,19 +35,19 @@ module.exports = ({ types: t }) => ({
     AssignmentExpression: {
       enter(path) {
         const key = path.node.left.property.name;
-        extractValueAndUpdateTable(t, this.state, path.node.right, key);
+        extractValueAndUpdateTable(t, this.state, path.get('right'), key);
       },
     },
     ObjectProperty: {
       enter(path) {
         const key = path.node.key.name;
-        extractValueAndUpdateTable(t, this.state, path.node.value, key);
+        extractValueAndUpdateTable(t, this.state, path.get('value'), key);
       },
     },
     VariableDeclarator: {
       enter(path) {
         const key = path.node.id.name;
-        extractValueAndUpdateTable(t, this.state, path.node.init, key);
+        extractValueAndUpdateTable(t, this.state, path.get('init'), key);
       },
     },
     JSXText: {
