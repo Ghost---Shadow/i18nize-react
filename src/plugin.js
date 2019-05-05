@@ -1,3 +1,8 @@
+const {
+  i18nextImportStatement,
+  kImportStatement,
+} = require('./frozen-asts');
+
 const extractValueAndUpdateTable = (t, table, path, key) => {
   const { value } = path.node;
 
@@ -15,13 +20,15 @@ module.exports = ({ types: t }) => ({
       enter() {
         this.state = {};
       },
-      exit() {
+      exit(path) {
         Object.keys(this.state).forEach((key) => {
           if (this.state[key].valid) {
             // TODO: OPTIMIZATION: Use quasi quotes to optimization this
-            this.state[key].path.replaceWithSourceString('t(k.SOME_TEXT)');
+            this.state[key].path.replaceWithSourceString('i18n.t(k.SOME_TEXT)');
           }
         });
+        path.node.body.unshift(kImportStatement);
+        path.node.body.unshift(i18nextImportStatement);
       },
     },
     JSXExpressionContainer: {
@@ -54,7 +61,7 @@ module.exports = ({ types: t }) => ({
       enter(path) {
         const coreValue = path.node.value.trim();
         if (!coreValue.length) return;
-        path.node.value = path.node.value.replace(coreValue, '{t(k.SOME_STRING)}');
+        path.node.value = path.node.value.replace(coreValue, '{i18n.t(k.SOME_STRING)}');
       },
     },
   },
