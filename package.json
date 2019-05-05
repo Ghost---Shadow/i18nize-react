@@ -19,6 +19,7 @@
     "@babel/preset-react": "^7.0.0",
     "babel-jest": "^24.7.1",
     "babel-plugin-tester": "^6.0.1",
+    "babel-test": "^0.1.6",
     "eslint": "^5.16.0",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-plugin-import": "^2.17.2",
@@ -26,6 +27,7 @@
     "eslint-plugin-react": "^7.12.4",
     "husky": "^2.1.0",
     "jest": "^24.7.1",
+    "jest-file-snapshot": "^0.3.6",
     "react-test-renderer": "^16.8.6"
   },
   "dependencies": {
@@ -37,6 +39,9 @@
     "testPathIgnorePatterns": [
       "/node_modules/",
       "/captive-app"
+    ],
+    "watchPathIgnorePatterns": [
+      "fixtures\\/[^/]+\\/(output|error)\\.js"
     ]
   },
   "husky": {

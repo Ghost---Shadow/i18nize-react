@@ -1,13 +1,14 @@
-const pluginTester = require('babel-plugin-tester');
+const { create } = require('babel-test');
 const path = require('path');
 const plugin = require('../src/plugin');
+const { toMatchFile } = require('jest-file-snapshot');
 
-pluginTester({
-  plugin,
-  fixtures: path.join(__dirname, 'fixtures'),
-  babelOptions: {
-    parserOpts: {
-      plugins: ['jsx'],
-    },
+expect.extend({ toMatchFile });
+const { fixtures } = create({
+  plugins: [plugin],
+  parserOpts: {
+    plugins: ['jsx'],
   },
 });
+
+fixtures('i18ize', path.join(__dirname, 'fixtures'));
