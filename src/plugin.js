@@ -1,3 +1,5 @@
+const _ = require('lodash');
+
 const {
   i18nextImportStatement,
   kImportStatement,
@@ -11,9 +13,7 @@ const extractValueAndUpdateTable = (t, table, path, key) => {
   const { value } = path.node;
 
   if (t.isStringLiteral(path.node)) {
-    if (!table[key]) table[key] = {};
-    table[key].value = value;
-    table[key].path = path;
+    table[key] = _.merge(table[key], { path, value });
   }
 };
 
@@ -28,7 +28,7 @@ module.exports = ({ types: t }) => ({
       },
       exit(path) {
         Object.keys(this.state).forEach((key) => {
-          if (this.state[key].valid) {
+          if (this.state[key].valid && this.state[key].value && this.state[key].path) {
             // TODO: OPTIMIZATION: Use quasi quotes to optimize this
             const kValue = getUniqueKeyFromFreeText(this.state[key].value);
             this.state[key].path.replaceWithSourceString(`i18n.t(k.${kValue})`);
@@ -52,8 +52,8 @@ module.exports = ({ types: t }) => ({
     JSXExpressionContainer: {
       enter(path) {
         const key = path.node.expression.name;
-        if (t.isIdentifier(path.node.expression) && this.state[key]) {
-          this.state[key].valid = true;
+        if (t.isIdentifier(path.node.expression)) {
+          this.state[key] = _.merge(this.state[key], { valid: true });
         }
       },
     },

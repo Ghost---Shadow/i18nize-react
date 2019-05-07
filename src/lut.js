@@ -9,7 +9,6 @@ const LutManager = {
   getLut: () => lut,
 
   // For testing
-  setLut: (newLut) => { lut = newLut; },
   clearLut: () => { lut = {}; },
   setMaxLength: (ml) => { maxLength = ml; },
   clearMaxLength: () => { maxLength = DEFAULT_MAX_LENGTH; },
