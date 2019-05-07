@@ -3,6 +3,10 @@ const {
   kImportStatement,
 } = require('./frozen-asts');
 
+const {
+  getUniqueKeyFromFreeText,
+} = require('./lut');
+
 const extractValueAndUpdateTable = (t, table, path, key) => {
   const { value } = path.node;
 
@@ -23,8 +27,9 @@ module.exports = ({ types: t }) => ({
       exit(path) {
         Object.keys(this.state).forEach((key) => {
           if (this.state[key].valid) {
-            // TODO: OPTIMIZATION: Use quasi quotes to optimization this
-            this.state[key].path.replaceWithSourceString('i18n.t(k.SOME_TEXT)');
+            // TODO: OPTIMIZATION: Use quasi quotes to optimize this
+            const kValue = getUniqueKeyFromFreeText(this.state[key].value);
+            this.state[key].path.replaceWithSourceString(`i18n.t(k.${kValue})`);
           }
         });
         path.node.body.unshift(kImportStatement);
@@ -61,7 +66,9 @@ module.exports = ({ types: t }) => ({
       enter(path) {
         const coreValue = path.node.value.trim();
         if (!coreValue.length) return;
-        path.node.value = path.node.value.replace(coreValue, '{i18n.t(k.SOME_STRING)}');
+        const kValue = getUniqueKeyFromFreeText(coreValue);
+        // TODO: OPTIMIZATION: Use quasi quotes to optimize this
+        path.node.value = path.node.value.replace(coreValue, `{i18n.t(k.${kValue})}`);
       },
     },
   },

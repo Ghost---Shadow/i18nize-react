@@ -7,6 +7,8 @@ const { default: traverse } = require('babel-traverse');
 
 const myPlugin = require('./plugin');
 
+const { LutManager } = require('./lut');
+
 const fileName = './test/fixtures/first-test/code.js';
 const inputCode = fs.readFileSync(fileName, 'utf8');
 
@@ -22,3 +24,4 @@ const { code } = babel.transformFromAst(ast);
 // console.log(code);
 
 fs.writeFileSync('./scratchpad/output.js', code);
+fs.writeFileSync('./scratchpad/english.json', JSON.stringify(LutManager.getLut(), null, 2));
