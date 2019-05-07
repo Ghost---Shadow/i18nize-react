@@ -23,6 +23,8 @@ module.exports = ({ types: t }) => ({
     Program: {
       enter() {
         this.state = {};
+        this.alreadyImportedK = false;
+        this.alreadyImportedi18n = false;
       },
       exit(path) {
         Object.keys(this.state).forEach((key) => {
@@ -32,8 +34,19 @@ module.exports = ({ types: t }) => ({
             this.state[key].path.replaceWithSourceString(`i18n.t(k.${kValue})`);
           }
         });
-        path.node.body.unshift(kImportStatement);
-        path.node.body.unshift(i18nextImportStatement);
+        if (!this.alreadyImportedK) path.node.body.unshift(kImportStatement);
+        if (!this.alreadyImportedi18n) path.node.body.unshift(i18nextImportStatement);
+      },
+    },
+    ImportDeclaration: {
+      enter(path) {
+        // For idempotence
+        if (path.node.source.value.match(/i18n\/keys/)) {
+          this.alreadyImportedK = true;
+        }
+        if (path.node.source.value.match(/^i18next$/)) {
+          this.alreadyImportedi18n = true;
+        }
       },
     },
     JSXExpressionContainer: {
