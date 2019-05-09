@@ -41,7 +41,7 @@
   "jest": {
     "testPathIgnorePatterns": [
       "/node_modules/",
-      "/captive-app"
+      "/scratchpad"
     ],
     "watchPathIgnorePatterns": [
       "fixtures\\/[^/]+\\/(output|error)\\.js"
