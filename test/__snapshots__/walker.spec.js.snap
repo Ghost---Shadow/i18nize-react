@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`walker walk should return list of all files in directory 1`] = `
+Array [
+  "test\\\\walking_test\\\\a.js",
+  "test\\\\walking_test\\\\directory\\\\b.jsx",
+]
+`;

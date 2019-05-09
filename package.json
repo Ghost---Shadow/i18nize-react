@@ -35,7 +35,8 @@
     "babel-core": "^6.26.3",
     "babel-traverse": "^6.26.0",
     "babylon": "^6.18.0",
-    "lodash": "^4.17.11"
+    "lodash": "^4.17.11",
+    "mkdirp": "^0.5.1"
   },
   "jest": {
     "testPathIgnorePatterns": [
