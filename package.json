@@ -44,7 +44,7 @@
       "/scratchpad"
     ],
     "watchPathIgnorePatterns": [
-      "fixtures\\/[^/]+\\/(output|error)\\.js"
+      "fixtures/*"
     ]
   },
   "husky": {

@@ -27,15 +27,20 @@ module.exports = ({ types: t }) => ({
         this.alreadyImportedi18n = false;
       },
       exit(path) {
+        let translateableElementsFound = false;
         Object.keys(this.state).forEach((key) => {
           if (this.state[key].valid && this.state[key].value && this.state[key].path) {
             // TODO: OPTIMIZATION: Use quasi quotes to optimize this
             const kValue = getUniqueKeyFromFreeText(this.state[key].value);
             this.state[key].path.replaceWithSourceString(`i18n.t(k.${kValue})`);
+
+            translateableElementsFound = true;
           }
         });
-        if (!this.alreadyImportedK) path.node.body.unshift(kImportStatement);
-        if (!this.alreadyImportedi18n) path.node.body.unshift(i18nextImportStatement);
+        if (translateableElementsFound) {
+          if (!this.alreadyImportedK) path.node.body.unshift(kImportStatement);
+          if (!this.alreadyImportedi18n) path.node.body.unshift(i18nextImportStatement);
+        }
       },
     },
     ImportDeclaration: {
