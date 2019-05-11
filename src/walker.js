@@ -6,8 +6,12 @@ const checkIfDirectoryShouldBeIgnored = fullPath => !!fullPath
   .match(/node_modules/);
 
 // TODO: Ignore all directories listed in .gitignore
-const checkIfFileShouldBeIgnored = fullPath => !fullPath
-  .trim().match(/\.jsx?$/);
+const checkIfFileShouldBeIgnored = (fullPath) => {
+  const hasJsExtension = fullPath.trim().match(/\.jsx?$/);
+  const isTestFile = fullPath.trim().match(/(test.jsx?|spec.jsx?)/);
+
+  return !(hasJsExtension && !isTestFile);
+};
 
 const walk = (rootDir, allFiles = []) => {
   const files = fs.readdirSync(rootDir);

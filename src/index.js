@@ -14,7 +14,7 @@ const { LutManager } = require('./lut');
 const { walk } = require('./walker');
 
 const inputDir = process.argv[2] || '../captive-app';
-const outputDir = process.argv[3] || './scratchpad';
+const outputDir = process.argv[3] || '../captive-app';
 
 const transformFile = (fileName) => {
   const inputCode = fs.readFileSync(fileName, 'utf8');
