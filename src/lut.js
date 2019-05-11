@@ -8,6 +8,11 @@ let maxLength = DEFAULT_MAX_LENGTH;
 const LutManager = {
   getLut: () => lut,
 
+  resetGetUniqueKeyFromFreeTextNumCalls: () => { LutManager.getUniqueKeyFromFreeTextNumCalls = 0; },
+  incrementGetUniqueKeyFromFreeTextNumCalls: () => {
+    LutManager.getUniqueKeyFromFreeTextNumCalls += 1;
+  },
+
   // For testing
   clearLut: () => { lut = {}; },
   setMaxLength: (ml) => { maxLength = ml; },
@@ -15,6 +20,8 @@ const LutManager = {
 };
 
 const getUniqueKeyFromFreeText = (text) => {
+  LutManager.incrementGetUniqueKeyFromFreeTextNumCalls();
+
   const maybeDuplicateKey = text.toUpperCase()
     .slice(0, maxLength)
     .replace(/\W+/g, ' ')

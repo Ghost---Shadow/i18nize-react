@@ -7,6 +7,7 @@ const {
 
 const {
   getUniqueKeyFromFreeText,
+  LutManager,
 } = require('./lut');
 
 const extractValueAndUpdateTable = (t, table, path, key) => {
@@ -25,19 +26,19 @@ module.exports = ({ types: t }) => ({
         this.state = {};
         this.alreadyImportedK = false;
         this.alreadyImportedi18n = false;
+        LutManager.resetGetUniqueKeyFromFreeTextNumCalls();
       },
       exit(path) {
-        let translateableElementsFound = false;
         Object.keys(this.state).forEach((key) => {
           if (this.state[key].valid && this.state[key].value && this.state[key].path) {
             // TODO: OPTIMIZATION: Use quasi quotes to optimize this
             const kValue = getUniqueKeyFromFreeText(this.state[key].value);
             this.state[key].path.replaceWithSourceString(`i18n.t(k.${kValue})`);
-
-            translateableElementsFound = true;
           }
         });
-        if (translateableElementsFound) {
+        // Do not add imports if there is no replaceable text
+        // in this file
+        if (LutManager.getUniqueKeyFromFreeTextNumCalls > 0) {
           if (!this.alreadyImportedK) path.node.body.unshift(kImportStatement);
           if (!this.alreadyImportedi18n) path.node.body.unshift(i18nextImportStatement);
         }
