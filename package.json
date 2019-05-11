@@ -33,6 +33,7 @@
   },
   "dependencies": {
     "babel-core": "^6.26.3",
+    "babel-project-relative-import": "^2.0.1",
     "babel-traverse": "^6.26.0",
     "babylon": "^6.18.0",
     "lodash": "^4.17.11",

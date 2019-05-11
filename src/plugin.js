@@ -39,8 +39,11 @@ module.exports = ({ types: t }) => ({
         // Do not add imports if there is no replaceable text
         // in this file
         if (LutManager.getUniqueKeyFromFreeTextNumCalls > 0) {
-          if (!this.alreadyImportedK) path.node.body.unshift(kImportStatement);
-          if (!this.alreadyImportedi18n) path.node.body.unshift(i18nextImportStatement);
+          if (!this.alreadyImportedK) path.node.body.unshift(_.cloneDeep(kImportStatement));
+          if (!this.alreadyImportedi18n) {
+            path.node.body
+              .unshift(_.cloneDeep(i18nextImportStatement));
+          }
         }
       },
     },

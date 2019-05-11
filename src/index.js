@@ -8,6 +8,8 @@ const babel = require('babel-core');
 const babylon = require('babylon');
 const { default: traverse } = require('babel-traverse');
 
+const { default: relativeImportPlugin } = require('babel-project-relative-import');
+
 const myPlugin = require('./plugin');
 
 const { LutManager } = require('./lut');
@@ -25,6 +27,20 @@ const transformFile = (fileName) => {
   });
 
   traverse(ast, myPlugin(babel).visitor);
+
+  // Convert all the ~/i18n/keys to <workplace_dir>/src/i18n/keys
+  const state = {
+    file: {
+      opts: {
+        sourceRoot: path.resolve(inputDir),
+        filename: fileName,
+      },
+    },
+    opts: {
+      sourceDir: 'src', // Default in React projects
+    },
+  };
+  traverse(ast, relativeImportPlugin(babel).visitor, null, state);
 
   const { code } = babel.transformFromAst(ast);
 

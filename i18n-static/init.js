@@ -9,5 +9,5 @@ i18next.init({
   },
 });
 
-// Add a line `import './i18n/init';` to your app entrypoint
-// usually src/index.js
+// Add this line to your app entrypoint. Usually it is src/index.js
+// import './i18n/init';
