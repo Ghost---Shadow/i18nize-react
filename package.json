@@ -44,7 +44,8 @@
       "/scratchpad"
     ],
     "watchPathIgnorePatterns": [
-      "fixtures/*"
+      "fixtures/*",
+      "__file_snapshots__"
     ]
   },
   "husky": {

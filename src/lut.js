@@ -5,8 +5,18 @@ let lut = {};
 const DEFAULT_MAX_LENGTH = 30;
 let maxLength = DEFAULT_MAX_LENGTH;
 
+const lutToLanguageCodeHelper = (myLut) => {
+  const kvToCode = (key, value) => `  [k.${key}]: '${value}'`;
+  const lines = Object.keys(myLut).map(key => kvToCode(key, myLut[key])).join(',\n');
+  const template = `import k from './keys';\n\nexport default {\n${lines}\n};\n`;
+
+  return template;
+};
+
 const LutManager = {
   getLut: () => lut,
+  getKeys: () => Object.keys(lut).reduce((acc, next) => ({ ...acc, [next]: next }), {}),
+  lutToLanguageCode: () => lutToLanguageCodeHelper(lut),
 
   resetGetUniqueKeyFromFreeTextNumCalls: () => { LutManager.getUniqueKeyFromFreeTextNumCalls = 0; },
   incrementGetUniqueKeyFromFreeTextNumCalls: () => {
@@ -15,6 +25,7 @@ const LutManager = {
 
   // For testing
   clearLut: () => { lut = {}; },
+  setLut: (newLut) => { lut = newLut; },
   setMaxLength: (ml) => { maxLength = ml; },
   clearMaxLength: () => { maxLength = DEFAULT_MAX_LENGTH; },
 };
@@ -40,4 +51,5 @@ const getUniqueKeyFromFreeText = (text) => {
 module.exports = {
   getUniqueKeyFromFreeText,
   LutManager,
+  lutToLanguageCodeHelper,
 };

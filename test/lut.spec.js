@@ -1,7 +1,12 @@
+const { toMatchFile } = require('jest-file-snapshot');
+
 const {
   getUniqueKeyFromFreeText,
+  lutToLanguageCodeHelper,
   LutManager,
 } = require('../src/lut');
+
+expect.extend({ toMatchFile });
 
 describe('lut', () => {
   describe('getUniqueKeyFromFreeText', () => {
@@ -70,6 +75,30 @@ describe('lut', () => {
       expect(getUniqueKeyFromFreeText('hello, to you')).toBe('HELLO_TO_YOU');
       expect(getUniqueKeyFromFreeText('so     much     spaaaace')).toBe('SO_MUCH_SPAAAACE');
       expect(getUniqueKeyFromFreeText('hello...')).toBe('HELLO');
+    });
+  });
+  describe('keys.js', () => {
+    it('should generate keys obj from a lut', () => {
+      const lut = {
+        FIRST_TEXT: 'a',
+        SECOND_TEXT: 'b',
+      };
+      const keys = {
+        FIRST_TEXT: 'FIRST_TEXT',
+        SECOND_TEXT: 'SECOND_TEXT',
+      };
+      LutManager.setLut(lut);
+      expect(LutManager.getKeys()).toEqual(keys);
+    });
+  });
+  describe('lutToLanguageCodeHelper', () => {
+    it('should match file snapshot', () => {
+      const lut = {
+        A_B_C: 'cde',
+        EF_G: 'hij',
+        HELLO_WORD: 'Hello words and worlds',
+      };
+      expect(lutToLanguageCodeHelper(lut)).toMatchFile('./test/__file_snapshots__/english.js');
     });
   });
 });

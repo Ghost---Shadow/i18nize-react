@@ -38,6 +38,10 @@ const allFiles = walk(path.resolve(inputDir));
 
 allFiles.forEach(fileName => transformFile(fileName));
 
-fs.writeFileSync(path.join(outputDir, 'english.json'), JSON.stringify(LutManager.getLut(), null, 2));
+// TODO: Generate these files with babel too
+mkdirp.sync(path.join(outputDir, 'src', 'i18n'));
+fs.writeFileSync(path.join(outputDir, 'src', 'i18n', 'keys.js'), `export default ${JSON.stringify(LutManager.getKeys(), null, 2)}`);
+fs.writeFileSync(path.join(outputDir, 'src', 'i18n', 'english.js'), LutManager.lutToLanguageCode());
+fs.writeFileSync(path.join(outputDir, 'src', 'i18n', 'init.js'), fs.readFileSync('./i18n-static/init.js'));
 
 // npm start ..\captive-app .\scratchpad
