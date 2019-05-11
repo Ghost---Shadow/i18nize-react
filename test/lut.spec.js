@@ -98,7 +98,8 @@ describe('lut', () => {
         EF_G: 'hij',
         HELLO_WORD: 'Hello words and worlds',
       };
-      expect(lutToLanguageCodeHelper(lut)).toMatchFile('./test/__file_snapshots__/english.js');
+      LutManager.setLut(lut);
+      expect(LutManager.lutToLanguageCode()).toMatchFile('./test/__file_snapshots__/english.js');
     });
   });
 });

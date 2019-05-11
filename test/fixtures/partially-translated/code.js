@@ -28,7 +28,7 @@ class App extends Component {
       <div className="App">
         <div className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
+          <h2>{i18n.t(k.WELCOME_TO_REACT)}</h2>
           <p>{hardCodedString}</p>
           <p>{this.thisHardcodedString}</p>
           <p>{`${hardCodedString} ${this.thisHardcodedString}`}</p>

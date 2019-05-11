@@ -9,7 +9,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      stuff: i18n.t(k.SRC_APP_JS),
+      stuff: i18n.t(k.SRC_APP_JS)
     };
     this.thisHardcodedString = 'Another string';
   }
@@ -21,14 +21,13 @@ class App extends Component {
 
   render() {
     const {
-      stuff,
+      stuff
     } = this.state;
     const hardCodedString = i18n.t(k.SOME_STRING);
-    return (
-      <div className="App">
+    return <div className="App">
         <div className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
+          <h2>{i18n.t(k.WELCOME_TO_REACT)}</h2>
           <p>{hardCodedString}</p>
           <p>{this.thisHardcodedString}</p>
           <p>{`${hardCodedString} ${this.thisHardcodedString}`}</p>
@@ -40,9 +39,9 @@ class App extends Component {
           {' '}
           {i18n.t(k.AND_SAVE_TO_RELOAD)}
         </p>
-      </div>
-    );
+      </div>;
   }
+
 }
 
 export default App;
