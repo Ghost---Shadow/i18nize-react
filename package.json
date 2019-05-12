@@ -3,7 +3,7 @@
   "bin": {
     "i18nize-react": "src/index.js"
   },
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Internationalize any react app",
   "main": "index.js",
   "scripts": {

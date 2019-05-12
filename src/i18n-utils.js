@@ -13,7 +13,8 @@ const {
 const generateI18nFiles = (outputDir) => {
   mkdirp.sync(path.join(outputDir, 'src', 'i18n'));
   fs.writeFileSync(path.join(outputDir, 'src', 'i18n', 'keys.js'), `module.exports = ${JSON.stringify(LutManager.getKeys(), null, 2)}`);
-  fs.writeFileSync(path.join(outputDir, 'src', 'i18n', 'init.js'), fs.readFileSync('./i18n-static/init.js'));
+  const initJsPath = path.resolve(path.join(__dirname, '../i18n-static/init.js'));
+  fs.writeFileSync(path.join(outputDir, 'src', 'i18n', 'init.js'), fs.readFileSync(initJsPath));
 
   const englishLut = LutManager.getLut();
   fs.writeFileSync(path.join(outputDir, 'src', 'i18n', 'english.js'), lutToLanguageCodeHelper(englishLut));
