@@ -1,6 +1,7 @@
 import i18next from 'i18next';
-import english from './english';
-import chinese from './chinese';
+
+const english = require('./english');
+const chinese = require('./chinese');
 
 i18next.init({
   lng: localStorage.getItem('lng') || 'en',
