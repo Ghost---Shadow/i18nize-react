@@ -13,6 +13,10 @@
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage"
   },
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/Ghost---Shadow/i18nize-react"
+  },
   "author": "Souradeep Nanda",
   "license": "MIT",
   "devDependencies": {
