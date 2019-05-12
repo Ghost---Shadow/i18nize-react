@@ -1,6 +1,6 @@
-import k from './keys';
+const k = require('./keys');
 
-export default {
+module.exports = {
   [k.A_B_C]: 'cde',
   [k.EF_G]: 'hij',
   [k.HELLO_WORD]: 'Hello words and worlds'
