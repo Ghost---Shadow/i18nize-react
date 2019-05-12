@@ -3,6 +3,7 @@ const { toMatchFile } = require('jest-file-snapshot');
 const {
   getUniqueKeyFromFreeText,
   lutToLanguageCodeHelper,
+  randomChineseLutConverter,
   LutManager,
 } = require('../src/lut');
 
@@ -98,8 +99,21 @@ describe('lut', () => {
         EF_G: 'hij',
         HELLO_WORD: 'Hello words and worlds',
       };
-      LutManager.setLut(lut);
-      expect(LutManager.lutToLanguageCode()).toMatchFile('./test/__file_snapshots__/english.js');
+      expect(lutToLanguageCodeHelper(lut)).toMatchFile('./test/__file_snapshots__/english.js');
+    });
+  });
+  describe('randomChineseLutConverter', () => {
+    it('should replace all strings in the text with chinese of same length', () => {
+      const lut = {
+        A_B_C: 'cde',
+        EF_G: 'hij',
+        HELLO_WORD: 'Hello words and worlds',
+      };
+      const chineseLut = randomChineseLutConverter(lut);
+      Object.keys(lut).forEach((key) => {
+        expect(lut[key]).toHaveLength(chineseLut[key].length);
+        expect(lut[key]).not.toEqual(chineseLut[key]);
+      });
     });
   });
 });

@@ -1,3 +1,5 @@
+const randChinese = require('randchinese');
+
 const MAX_ITERATIONS = 1000;
 
 let lut = {};
@@ -13,10 +15,16 @@ const lutToLanguageCodeHelper = (myLut) => {
   return template;
 };
 
+const randomChineseLutConverter = myLut => Object.keys(myLut)
+  .reduce((acc, next) => ({
+    ...acc,
+    [next]:
+   randChinese(myLut[next].length),
+  }), {});
+
 const LutManager = {
   getLut: () => lut,
   getKeys: () => Object.keys(lut).reduce((acc, next) => ({ ...acc, [next]: next }), {}),
-  lutToLanguageCode: () => lutToLanguageCodeHelper(lut),
 
   resetGetUniqueKeyFromFreeTextNumCalls: () => { LutManager.getUniqueKeyFromFreeTextNumCalls = 0; },
   incrementGetUniqueKeyFromFreeTextNumCalls: () => {
@@ -52,4 +60,5 @@ module.exports = {
   getUniqueKeyFromFreeText,
   LutManager,
   lutToLanguageCodeHelper,
+  randomChineseLutConverter,
 };

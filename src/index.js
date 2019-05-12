@@ -12,13 +12,18 @@ const { default: relativeImportPlugin } = require('babel-project-relative-import
 
 const myPlugin = require('./plugin');
 
-const { LutManager } = require('./lut');
+const {
+  LutManager,
+  lutToLanguageCodeHelper,
+  randomChineseLutConverter,
+} = require('./lut');
 const { walk } = require('./walker');
 
 const inputDir = process.argv[2] || '../captive-app';
 const outputDir = process.argv[3] || '../captive-app';
 
 const transformFile = (fileName) => {
+  console.log('Transforming:', fileName);
   const inputCode = fs.readFileSync(fileName, 'utf8');
 
   const ast = babylon.parse(inputCode, {
@@ -57,7 +62,11 @@ allFiles.forEach(fileName => transformFile(fileName));
 // TODO: Generate these files with babel too
 mkdirp.sync(path.join(outputDir, 'src', 'i18n'));
 fs.writeFileSync(path.join(outputDir, 'src', 'i18n', 'keys.js'), `export default ${JSON.stringify(LutManager.getKeys(), null, 2)}`);
-fs.writeFileSync(path.join(outputDir, 'src', 'i18n', 'english.js'), LutManager.lutToLanguageCode());
 fs.writeFileSync(path.join(outputDir, 'src', 'i18n', 'init.js'), fs.readFileSync('./i18n-static/init.js'));
 
-// npm start ..\captive-app .\scratchpad
+const englishLut = LutManager.getLut();
+fs.writeFileSync(path.join(outputDir, 'src', 'i18n', 'english.js'), lutToLanguageCodeHelper(englishLut));
+const chineseLut = randomChineseLutConverter(LutManager.getLut());
+fs.writeFileSync(path.join(outputDir, 'src', 'i18n', 'chinese.js'), lutToLanguageCodeHelper(chineseLut));
+
+// npm start ../input-directory ../output-directory
