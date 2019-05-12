@@ -60,9 +60,26 @@ module.exports = ({ types: t }) => ({
     },
     JSXExpressionContainer: {
       enter(path) {
-        const key = path.node.expression.name;
         if (t.isIdentifier(path.node.expression)) {
+          const key = path.node.expression.name;
           this.state[key] = _.merge(this.state[key], { valid: true });
+        } else if (t.isTemplateLiteral(path.node.expression)) {
+          const { expressions, quasis } = path.node.expression;
+          expressions.forEach((expression) => {
+            const key = expression.name;
+            this.state[key] = _.merge(this.state[key], { valid: true });
+          });
+          quasis.forEach((templateElement, index) => {
+            const coreValue = templateElement.value.raw.trim();
+            if (coreValue.length) {
+              const qPath = path.get('expression.quasis')[index];
+              const kValue = getUniqueKeyFromFreeText(coreValue);
+              // TODO: OPTIMIZATION: Use quasi quotes to optimize this
+              // TODO: Replace the path instead of modifying the raw
+              qPath.node.value.raw = qPath.node.value.raw.replace(coreValue, `\${i18n.t(k.${kValue})}`);
+              qPath.node.value.cooked = qPath.node.value.cooked.replace(coreValue, `\${i18n.t(k.${kValue})}`);
+            }
+          });
         }
       },
     },
