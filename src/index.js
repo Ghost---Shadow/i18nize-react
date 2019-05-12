@@ -14,8 +14,8 @@ const { walk } = require('./walker');
 const { generateI18nFiles } = require('./i18n-utils');
 const { LutManager } = require('./lut');
 
-const inputDir = process.argv[2] || '../captive-app';
-const outputDir = process.argv[3] || '../captive-app';
+const inputDir = process.argv[2] || './'; // '../captive-app';
+const outputDir = process.argv[3] || './'; // '../captive-app';
 
 const transformFile = (fileName) => {
   console.log('Transforming:', fileName);
