@@ -4,14 +4,15 @@ const fs = require('fs');
 const path = require('path');
 const mkdirp = require('mkdirp');
 
-const babel = require('babel-core');
-const babylon = require('babylon');
-const { default: traverse } = require('babel-traverse');
+const babel = require('@babel/core');
+const parser = require('@babel/parser');
+const { default: traverse } = require('@babel/traverse');
 const { default: relativeImportPlugin } = require('babel-project-relative-import');
 
 const myPlugin = require('./plugin');
 const { walk } = require('./walker');
 const { generateI18nFiles } = require('./i18n-utils');
+const plugins = require('./used-plugins');
 const { LutManager } = require('./lut');
 
 const inputDir = process.argv[2] || './'; // '../captive-app';
@@ -21,14 +22,12 @@ const transformFile = (fileName) => {
   try {
     console.log('Transforming:', fileName);
     const inputCode = fs.readFileSync(fileName, 'utf8');
-
-    const ast = babylon.parse(inputCode, {
+    const ast = parser.parse(inputCode, {
       sourceType: 'module',
-      plugins: ['jsx'],
+      plugins,
     });
 
     traverse(ast, myPlugin(babel).visitor);
-
     // Convert all the ~/i18n/keys to <workplace_dir>/src/i18n/keys
     const state = {
       file: {
