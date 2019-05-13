@@ -11,9 +11,8 @@ const {
 } = require('./lut');
 
 const extractValueAndUpdateTable = (t, table, path, key) => {
-  const { value } = path.node;
-
   if (t.isStringLiteral(path.node)) {
+    const { value } = path.node;
     table[key] = _.merge(table[key], { path, value });
   }
 };
@@ -61,7 +60,9 @@ module.exports = ({ types: t }) => ({
     JSXExpressionContainer: {
       enter(path) {
         if (t.isIdentifier(path.node.expression)) {
-          const key = path.node.expression.name;
+          // TODO: Explore the reason behind crash
+          const key = _.get(path, 'node.expression.name');
+          if (!key) return;
           this.state[key] = _.merge(this.state[key], { valid: true });
         } else if (t.isTemplateLiteral(path.node.expression)) {
           const { expressions, quasis } = path.node.expression;
@@ -85,25 +86,33 @@ module.exports = ({ types: t }) => ({
     },
     AssignmentExpression: {
       enter(path) {
-        const key = path.node.left.property.name;
+        // TODO: Explore the reason behind crash
+        // react-shopping-cart\src\services\store.js
+        const key = _.get(path, 'node.left.property.name');
+        if (!key) return;
         extractValueAndUpdateTable(t, this.state, path.get('right'), key);
       },
     },
     ObjectProperty: {
       enter(path) {
-        const key = path.node.key.name;
+        // TODO: Explore the reason behind crash
+        const key = _.get(path, 'node.key.name');
+        if (!key) return;
         extractValueAndUpdateTable(t, this.state, path.get('value'), key);
       },
     },
     VariableDeclarator: {
       enter(path) {
-        const key = path.node.id.name;
+        // TODO: Explore the reason behind crash
+        const key = _.get(path, 'node.id.name');
+        if (!key) return;
         extractValueAndUpdateTable(t, this.state, path.get('init'), key);
       },
     },
     JSXText: {
       enter(path) {
-        const coreValue = path.node.value.trim();
+        // TODO: Explore the reason behind crash
+        const coreValue = _.get(path, 'node.value', '').trim();
         if (!coreValue.length) return;
         const kValue = getUniqueKeyFromFreeText(coreValue);
         // TODO: OPTIMIZATION: Use quasi quotes to optimize this
