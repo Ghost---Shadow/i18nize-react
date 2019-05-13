@@ -41,11 +41,12 @@ const LutManager = {
 const getUniqueKeyFromFreeText = (text) => {
   LutManager.incrementGetUniqueKeyFromFreeTextNumCalls();
 
-  const maybeDuplicateKey = text.toUpperCase()
+  let maybeDuplicateKey = text.toUpperCase()
     .slice(0, maxLength)
     .replace(/\W+/g, ' ')
     .trim()
     .replace(/\W/g, '_');
+  maybeDuplicateKey = maybeDuplicateKey.length ? maybeDuplicateKey : '_';
   let key = maybeDuplicateKey;
   for (let i = 1; i < MAX_ITERATIONS; i += 1) {
     if (lut[key] === text || lut[key] === undefined) break;

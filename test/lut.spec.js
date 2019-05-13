@@ -77,6 +77,13 @@ describe('lut', () => {
       expect(getUniqueKeyFromFreeText('so     much     spaaaace')).toBe('SO_MUCH_SPAAAACE');
       expect(getUniqueKeyFromFreeText('hello...')).toBe('HELLO');
     });
+    it('should not crash if only special characters', () => {
+      LutManager.clearLut();
+
+      expect(getUniqueKeyFromFreeText(',')).toBe('_');
+      expect(getUniqueKeyFromFreeText('!')).toBe('_1');
+      expect(getUniqueKeyFromFreeText('?')).toBe('_2');
+    });
   });
   describe('keys.js', () => {
     it('should generate keys obj from a lut', () => {
