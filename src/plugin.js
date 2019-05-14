@@ -111,7 +111,6 @@ module.exports = ({ types: t }) => ({
     },
     JSXText: {
       enter(path) {
-        // TODO: Explore the reason behind crash
         const coreValue = _.get(path, 'node.value', '').trim();
         if (!coreValue.length) return;
         const kValue = getUniqueKeyFromFreeText(coreValue);
