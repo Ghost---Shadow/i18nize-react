@@ -3,7 +3,7 @@
   "bin": {
     "i18nize-react": "src/index.js"
   },
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "A babel plugin cli to internationalize any react app",
   "main": "index.js",
   "scripts": {
