@@ -43,9 +43,9 @@ const getUniqueKeyFromFreeText = (text) => {
 
   let maybeDuplicateKey = text.toUpperCase()
     .slice(0, maxLength)
-    .replace(/\W+/g, ' ')
+    .replace(/[^a-zA-Z]+/g, ' ')
     .trim()
-    .replace(/\W/g, '_');
+    .replace(/[^a-zA-Z]/g, '_');
   maybeDuplicateKey = maybeDuplicateKey.length ? maybeDuplicateKey : '_';
   let key = maybeDuplicateKey;
   for (let i = 1; i < MAX_ITERATIONS; i += 1) {

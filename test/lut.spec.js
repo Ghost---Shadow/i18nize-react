@@ -84,6 +84,20 @@ describe('lut', () => {
       expect(getUniqueKeyFromFreeText('!')).toBe('_1');
       expect(getUniqueKeyFromFreeText('?')).toBe('_2');
     });
+    it('should handle numbers gracefully', () => {
+      LutManager.clearLut();
+
+      expect(getUniqueKeyFromFreeText('123123131')).toBe('_');
+      expect(getUniqueKeyFromFreeText('123123132')).toBe('_1');
+      expect(getUniqueKeyFromFreeText('123123133')).toBe('_2');
+
+      expect(getUniqueKeyFromFreeText('12 12 12 21')).toBe('_3');
+      expect(getUniqueKeyFromFreeText('12 12 12 21')).toBe('_3');
+      expect(getUniqueKeyFromFreeText('12 12 12 21')).toBe('_3');
+
+      expect(getUniqueKeyFromFreeText('#33ffgg')).toBe('FFGG');
+      expect(getUniqueKeyFromFreeText('#33ffgg')).toBe('FFGG');
+    });
   });
   describe('keys.js', () => {
     it('should generate keys obj from a lut', () => {
