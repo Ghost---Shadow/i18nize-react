@@ -18,6 +18,15 @@
     "type": "git",
     "url": "https://github.com/Ghost---Shadow/i18nize-react"
   },
+  "keywords": [
+    "i18n",
+    "i18next",
+    "react",
+    "babel",
+    "babeljs",
+    "babel-plugin",
+    "cli"
+  ],
   "author": "Souradeep Nanda",
   "license": "MIT",
   "devDependencies": {
