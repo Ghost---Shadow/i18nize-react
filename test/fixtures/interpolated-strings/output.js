@@ -9,7 +9,7 @@ const string4 = i18n.t(k.HELLO_WOMBLE);
 const InterpolationTest = () => <div>
     {string1}
     {`${string2} ${string3}`}
-    {`${i18n.t(k.POTATO)} ${string4}`}
+    {`Potato: ${string4}`}
   </div>;
 
 export default InterpolationTest;

@@ -57,30 +57,12 @@ module.exports = ({ types: t }) => ({
         }
       },
     },
-    JSXExpressionContainer: {
+    Identifier: {
       enter(path) {
-        if (t.isIdentifier(path.node.expression)) {
-          // TODO: Explore the reason behind crash
-          const key = _.get(path, 'node.expression.name');
-          if (!key) return;
-          this.state[key] = _.merge(this.state[key], { valid: true });
-        } else if (t.isTemplateLiteral(path.node.expression)) {
-          const { expressions, quasis } = path.node.expression;
-          expressions.forEach((expression) => {
-            const key = expression.name;
-            this.state[key] = _.merge(this.state[key], { valid: true });
-          });
-          quasis.forEach((templateElement, index) => {
-            const coreValue = templateElement.value.raw.trim();
-            if (coreValue.length) {
-              const qPath = path.get('expression.quasis')[index];
-              const kValue = getUniqueKeyFromFreeText(coreValue);
-              // TODO: OPTIMIZATION: Use quasi quotes to optimize this
-              // TODO: Replace the path instead of modifying the raw
-              qPath.node.value.raw = qPath.node.value.raw.replace(coreValue, `\${i18n.t(k.${kValue})}`);
-              qPath.node.value.cooked = qPath.node.value.cooked.replace(coreValue, `\${i18n.t(k.${kValue})}`);
-            }
-          });
+        // Only extract the value of identifiers
+        // who are children of some JSX element
+        if (path.findParent(p => p.isJSXElement())) {
+          this.state[path.node.name] = _.merge(this.state[path.node.name], { valid: true });
         }
       },
     },

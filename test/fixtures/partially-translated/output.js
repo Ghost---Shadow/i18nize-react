@@ -11,7 +11,7 @@ class App extends Component {
     this.state = {
       stuff: i18n.t(k.SRC_APP_JS)
     };
-    this.thisHardcodedString = 'Another string';
+    this.thisHardcodedString = i18n.t(k.ANOTHER_STRING);
   }
 
   componentDidMount() {
