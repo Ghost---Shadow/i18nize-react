@@ -20,6 +20,8 @@ class App extends Component {
   render() {
     const { stuff } = this.state;
     const hardCodedString = 'Some string';
+    let aLetString = null;
+    aLetString = 'Assignment Expression';
     return (
       <div className="App">
         <div className="App-header">
@@ -28,6 +30,7 @@ class App extends Component {
           <p>{hardCodedString}</p>
           <p>{this.thisHardcodedString}</p>
           <p>{`${hardCodedString} ${this.thisHardcodedString}`}</p>
+          <p>{aLetString}</p>
         </div>
         <p className="App-intro">
           To get started, edit

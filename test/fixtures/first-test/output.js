@@ -24,6 +24,8 @@ class App extends Component {
       stuff
     } = this.state;
     const hardCodedString = i18n.t(k.SOME_STRING);
+    let aLetString = null;
+    aLetString = i18n.t(k.ASSIGNMENT_EXPRESSION);
     return <div className="App">
         <div className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
@@ -31,6 +33,7 @@ class App extends Component {
           <p>{hardCodedString}</p>
           <p>{this.thisHardcodedString}</p>
           <p>{`${hardCodedString} ${this.thisHardcodedString}`}</p>
+          <p>{aLetString}</p>
         </div>
         <p className="App-intro">
           {i18n.t(k.TO_GET_STARTED_EDIT)}
