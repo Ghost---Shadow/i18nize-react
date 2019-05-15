@@ -41,3 +41,7 @@ i18nize-react
 Create an issue ticket with a before and after code snippets, before writing any code and raising a PR.
 
 For bugs create a minimum reproducible piece of code with original, received and expected snippets.
+
+## Trouble shooting
+
+Sometimes `i18ize-react` might conflict with the babel plugins installed in your project. If that happens go up one folder (`cd ..`) and then run `i18ize-react ./your-dir ./your-dir`
