@@ -92,8 +92,6 @@ module.exports = ({ types: t }) => ({
     },
     AssignmentExpression: {
       enter(path) {
-        // TODO: Explore the reason behind crash
-        // react-shopping-cart\src\services\store.js
         const key = _.get(path, 'node.left.name', _.get(path, 'node.left.property.name'));
         if (!key) return;
         extractValueAndUpdateTable(t, this.state, path.get('right'), key);
