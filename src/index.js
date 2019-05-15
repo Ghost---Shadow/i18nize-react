@@ -15,8 +15,10 @@ const { generateI18nFiles } = require('./i18n-utils');
 const plugins = require('./used-plugins');
 const { LutManager } = require('./lut');
 
-const inputDir = process.argv[2] || './'; // '../captive-app';
-const outputDir = process.argv[3] || './'; // '../captive-app';
+const inputDir = process.argv[2] || './';
+const outputDir = process.argv[3] || './';
+const sourceDir = process.argv[4] || 'src'; // Default in React projects
+const isDry = process.argv[5] || false; // Dont transform (just for testing)
 
 const transformFile = (fileName) => {
   try {
@@ -27,7 +29,7 @@ const transformFile = (fileName) => {
       plugins,
     });
 
-    traverse(ast, myPlugin(babel).visitor);
+    if (!isDry) { traverse(ast, myPlugin(babel).visitor); }
     // Convert all the ~/i18n/keys to <workplace_dir>/src/i18n/keys
     const state = {
       file: {
@@ -37,7 +39,7 @@ const transformFile = (fileName) => {
         },
       },
       opts: {
-        sourceDir: 'src', // Default in React projects
+        sourceDir,
       },
     };
     traverse(ast, relativeImportPlugin(babel).visitor, null, state);
@@ -56,10 +58,10 @@ const transformFile = (fileName) => {
 
 // If running this script for the second time, it should not
 // discard the table generated from the first run
-if (fs.existsSync(path.join(path.resolve(inputDir), 'src/i18n/english.js'))) {
+if (fs.existsSync(path.join(path.resolve(inputDir), `${sourceDir}/i18n/english.js`))) {
   console.log('english.js exists');
   // eslint-disable-next-line
-  const oldLut = require(path.join(path.resolve(inputDir), 'src/i18n/english'));
+  const oldLut = require(path.join(path.resolve(inputDir), `${sourceDir}/i18n/english`));
   LutManager.setLut(oldLut);
 }
 
@@ -67,6 +69,10 @@ const allFiles = walk(path.resolve(inputDir));
 
 allFiles.forEach(fileName => transformFile(fileName));
 
-generateI18nFiles(outputDir);
+generateI18nFiles(outputDir, sourceDir);
+
+if (isDry) {
+  console.log('Successfully did a dry walk');
+}
 
 // npm start ../input-directory ../output-directory
