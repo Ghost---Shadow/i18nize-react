@@ -8,7 +8,7 @@ const DEFAULT_MAX_LENGTH = 30;
 let maxLength = DEFAULT_MAX_LENGTH;
 
 const lutToLanguageCodeHelper = (myLut) => {
-  const kvToCode = (key, value) => `  [k.${key}]: '${value}'`;
+  const kvToCode = (key, value) => `  [k.${key}]: \`${value}\``;
   const lines = Object.keys(myLut).map(key => kvToCode(key, myLut[key])).join(',\n');
   const template = `const k = require('./keys');\n\nmodule.exports = {\n${lines}\n};\n`;
 
