@@ -126,5 +126,17 @@ module.exports = ({ types: t }) => ({
         path.node.value = path.node.value.replace(coreValue, `{i18n.t(k.${kValue})}`);
       },
     },
+    StringLiteral: {
+      enter(path) {
+        // For ternary operators
+        if (!path.findParent(p => p.isConditionalExpression())) return;
+
+        const coreValue = _.get(path, 'node.value', '').trim();
+        if (!coreValue.length) return;
+        const kValue = getUniqueKeyFromFreeText(coreValue);
+        // TODO: OPTIMIZATION: Use quasi quotes to optimize this
+        path.replaceWithSourceString(`i18n.t(k.${kValue})`);
+      },
+    },
   },
 });
