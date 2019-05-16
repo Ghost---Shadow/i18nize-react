@@ -131,6 +131,10 @@ module.exports = ({ types: t }) => ({
         // For ternary operators
         if (!path.findParent(p => p.isConditionalExpression())) return;
 
+        // Only extract the value of identifiers
+        // who are children of some JSX element
+        if (!path.findParent(p => p.isJSXElement())) return;
+
         const coreValue = _.get(path, 'node.value', '').trim();
         if (!coreValue.length) return;
         const kValue = getUniqueKeyFromFreeText(coreValue);
