@@ -44,4 +44,6 @@ For bugs create a minimum reproducible piece of code with original, received and
 
 ## Trouble shooting
 
-Sometimes `i18ize-react` might conflict with the babel plugins installed in your project. If that happens go up one folder (`cd ..`) and then run `i18ize-react ./your-dir ./your-dir`
+1. Sometimes `i18ize-react` might conflict with the babel plugins installed in your project. If that happens go up one folder (`cd ..`) and then run `i18ize-react ./your-dir ./your-dir`
+
+2. By default `i18ize-react` assumes that your code is in `<your workspace dir>/src` but if you want to change that you can use the third argument. e.g. `i18ize-react ./ ./ web` will crawl  `<your workspace dir>/web` instead.
