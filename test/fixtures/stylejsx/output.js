@@ -1,11 +1,15 @@
-import i18n from 'i18next';
-import k from '~/i18n/keys';
 import React from 'react';
 
 const SomeComponent = () => <div>
     <div>
       <style jsx>
-        {`${i18n.t(k.GAME_PANEL_POSI)}`}
+        {`.game-panel {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+          }`}
       </style>
     </div>
   </div>;

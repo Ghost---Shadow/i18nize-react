@@ -70,7 +70,11 @@ module.exports = ({ types: t }) => ({
       enter(path) {
         // Only extract the value of identifiers
         // who are children of some JSX element
-        if (!path.findParent(p => p.isJSXElement())) return;
+        const firstJsxParent = path.findParent(p => p.isJSXElement());
+        if (!firstJsxParent) return;
+
+        // Ignore CSS strings
+        if (_.get(firstJsxParent, 'node.openingElement.name.name') === 'style') return;
 
         const { expressions, quasis } = path.node;
         expressions.forEach((expression) => {
