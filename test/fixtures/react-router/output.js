@@ -18,7 +18,11 @@ function App() {
 
 function Header() {
   return (
-    <Link to="/">{i18n.t(k.HOME)}</Link>);
+    <div>
+      <CustomComponent customAttr={`${i18n.t(k.P)} ${potato}`} />
+      <Link to="/">{i18n.t(k.HOME)}</Link>
+    </div>);
+
 }
 
 export default App;

@@ -10,21 +10,10 @@ const {
   LutManager,
 } = require('./lut');
 
-// Dont extract value for Literals under this attribute
-const isBlacklistedForJsxAttribute = (path) => {
-  const blacklistedJsxAttributes = [
-    // React router
-    'path', 'from', 'to',
-    // Inline style
-    'style',
-  ];
-  const jsxAttributeParent = path.findParent(p => p.isJSXAttribute());
-  if (!jsxAttributeParent) return false;
-  const name = _.get(jsxAttributeParent, 'node.name.name');
-  if (blacklistedJsxAttributes.includes(name)) return true;
-  return false;
-};
-
+const {
+  isBlacklistedForJsxAttribute,
+  handleConditionalExpressions,
+} = require('./plugin-helpers');
 
 const extractValueAndUpdateTable = (t, table, path, key) => {
   if (t.isStringLiteral(path.node)) {
@@ -114,6 +103,7 @@ module.exports = ({ types: t }) => ({
     },
     AssignmentExpression: {
       enter(path) {
+        // TODO: Explore the reason behind crash
         const key = _.get(path, 'node.left.name', _.get(path, 'node.left.property.name'));
         if (!key) return;
         extractValueAndUpdateTable(t, this.state, path.get('right'), key);
@@ -121,12 +111,12 @@ module.exports = ({ types: t }) => ({
     },
     ObjectProperty: {
       enter(path) {
+        const key = _.get(path, 'node.key.name');
+        if (!key) return;
+
         // Check for blacklist
         if (isBlacklistedForJsxAttribute(path)) return;
 
-        // TODO: Explore the reason behind crash
-        const key = _.get(path, 'node.key.name');
-        if (!key) return;
         extractValueAndUpdateTable(t, this.state, path.get('value'), key);
       },
     },
@@ -135,6 +125,10 @@ module.exports = ({ types: t }) => ({
         // TODO: Explore the reason behind crash
         const key = _.get(path, 'node.id.name');
         if (!key) return;
+
+        // Check for blacklist
+        if (isBlacklistedForJsxAttribute(path)) return;
+
         extractValueAndUpdateTable(t, this.state, path.get('init'), key);
       },
     },
@@ -149,21 +143,7 @@ module.exports = ({ types: t }) => ({
     },
     StringLiteral: {
       enter(path) {
-        // For ternary operators
-        if (!path.findParent(p => p.isConditionalExpression())) return;
-
-        // Only extract the value of identifiers
-        // who are children of some JSX element
-        if (!path.findParent(p => p.isJSXElement())) return;
-
-        // Check for blacklist
-        if (isBlacklistedForJsxAttribute(path)) return;
-
-        const coreValue = _.get(path, 'node.value', '').trim();
-        if (!coreValue.length) return;
-        const kValue = getUniqueKeyFromFreeText(coreValue);
-        // TODO: OPTIMIZATION: Use quasi quotes to optimize this
-        path.replaceWithSourceString(`i18n.t(k.${kValue})`);
+        handleConditionalExpressions(path);
       },
     },
   },

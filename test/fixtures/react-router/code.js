@@ -18,7 +18,11 @@ function App() {
 
 function Header() {
   return (
-    <Link to="/">Home</Link>);
+    <div>
+      <CustomComponent customAttr={`p: ${potato}`} />
+      <Link to="/">Home</Link>
+    </div>
+  );
 }
 
 export default App;

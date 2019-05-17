@@ -9,6 +9,20 @@ const SomeComponent = () => (
     >
       Some text
     </div>
+    <div
+      style={() => {
+        const margin = '10px';
+        const maxWidth = 20;
+        const border = maxWidth > 20 ? '1px solid white' : '  ';
+        return {
+          margin,
+          border,
+        };
+      }}
+      title={showTitle ? 'Title' : '  '}
+    >
+      Some more text
+    </div>
   </div>
 );
 
