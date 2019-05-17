@@ -4,5 +4,4 @@ const textLengthEnforcer = text => text.slice(0, 100);
 
 module.exports = {
   emailSanitizer,
-  textLengthEnforcer
-};
+  textLengthEnforcer };

@@ -5,6 +5,7 @@ const path = require('path');
 const mkdirp = require('mkdirp');
 
 const babel = require('@babel/core');
+const { default: generate } = require('@babel/generator');
 const parser = require('@babel/parser');
 const { default: traverse } = require('@babel/traverse');
 const { default: relativeImportPlugin } = require('babel-project-relative-import');
@@ -12,7 +13,7 @@ const { default: relativeImportPlugin } = require('babel-project-relative-import
 const myPlugin = require('./plugin');
 const { walk } = require('./walker');
 const { generateI18nFiles } = require('./i18n-utils');
-const plugins = require('./used-plugins');
+const { parserPlugins, generatorOptions } = require('./used-plugins');
 const { LutManager } = require('./lut');
 
 const inputDir = process.argv[2] || './';
@@ -26,7 +27,7 @@ const transformFile = (fileName) => {
     const inputCode = fs.readFileSync(fileName, 'utf8');
     const ast = parser.parse(inputCode, {
       sourceType: 'module',
-      plugins,
+      plugins: parserPlugins,
     });
 
     if (!isDry) { traverse(ast, myPlugin(babel).visitor); }
@@ -44,7 +45,7 @@ const transformFile = (fileName) => {
     };
     traverse(ast, relativeImportPlugin(babel).visitor, null, state);
 
-    const { code } = babel.transformFromAst(ast);
+    const { code } = generate(ast, generatorOptions);
 
     const relativePath = path.relative(inputDir, fileName);
     const outputFilePath = path.join(outputDir, relativePath);

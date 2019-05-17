@@ -1,5 +1,7 @@
 // @flow
+
 import type { User } from 'shared/types/state';
+
 export function getValidUser(user: mixed): User {
   if (!user || typeof user.id !== 'string' || typeof user.name !== 'string') {
     throw new Error(`Invalid user: ${String(user)}`);
@@ -7,7 +9,9 @@ export function getValidUser(user: mixed): User {
 
   return {
     id: user.id,
-    name: user.name
-  };
-} // Taken from
+    name: user.name };
+
+}
+
+// Taken from
 // https://github.com/skidding/flatris

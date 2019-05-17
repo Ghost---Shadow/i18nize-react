@@ -1,6 +1,7 @@
 import React from 'react';
 
-const SomeComponent = () => <div>
+const SomeComponent = () =>
+<div>
     <div>
       <style jsx>
         {`.game-panel {
@@ -13,5 +14,6 @@ const SomeComponent = () => <div>
       </style>
     </div>
   </div>;
+
 
 export default SomeComponent;

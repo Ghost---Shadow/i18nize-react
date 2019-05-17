@@ -1,6 +1,4 @@
-import i18n from 'i18next';
-import k from '~/i18n/keys';
-import React, { Component } from 'react';
+import i18n from 'i18next';import k from '~/i18n/keys';import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import api from './api';
@@ -9,8 +7,8 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      stuff: i18n.t(k.SRC_APP_JS)
-    };
+      stuff: i18n.t(k.SRC_APP_JS) };
+
     this.thisHardcodedString = i18n.t(k.ANOTHER_STRING);
   }
 
@@ -20,13 +18,12 @@ class App extends Component {
   }
 
   render() {
-    const {
-      stuff
-    } = this.state;
+    const { stuff } = this.state;
     const hardCodedString = i18n.t(k.SOME_STRING);
     let aLetString = null;
     aLetString = i18n.t(k.ASSIGNMENT_EXPRESSION);
-    return <div className="App">
+    return (
+      <div className="App">
         <div className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <h2>{i18n.t(k.WELCOME_TO_REACT)}</h2>
@@ -42,9 +39,9 @@ class App extends Component {
           {' '}
           {i18n.t(k.AND_SAVE_TO_RELOAD)}
         </p>
-      </div>;
-  }
+      </div>);
 
-}
+  }}
+
 
 export default App;
