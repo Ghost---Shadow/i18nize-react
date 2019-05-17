@@ -11,10 +11,12 @@ const {
 } = require('./lut');
 
 // Dont extract value for Literals under this attribute
-const checkForJsxAttributeBlacklist = (path) => {
+const isBlacklistedForJsxAttribute = (path) => {
   const blacklistedJsxAttributes = [
     // React router
     'path', 'from', 'to',
+    // Inline style
+    'style',
   ];
   const jsxAttributeParent = path.findParent(p => p.isJSXAttribute());
   if (!jsxAttributeParent) return false;
@@ -90,7 +92,7 @@ module.exports = ({ types: t }) => ({
         // Ignore CSS strings
         if (_.get(firstJsxParent, 'node.openingElement.name.name') === 'style') return;
 
-        if (checkForJsxAttributeBlacklist(path)) return;
+        if (isBlacklistedForJsxAttribute(path)) return;
 
         const { expressions, quasis } = path.node;
         expressions.forEach((expression) => {
@@ -119,6 +121,9 @@ module.exports = ({ types: t }) => ({
     },
     ObjectProperty: {
       enter(path) {
+        // Check for blacklist
+        if (isBlacklistedForJsxAttribute(path)) return;
+
         // TODO: Explore the reason behind crash
         const key = _.get(path, 'node.key.name');
         if (!key) return;
@@ -150,6 +155,9 @@ module.exports = ({ types: t }) => ({
         // Only extract the value of identifiers
         // who are children of some JSX element
         if (!path.findParent(p => p.isJSXElement())) return;
+
+        // Check for blacklist
+        if (isBlacklistedForJsxAttribute(path)) return;
 
         const coreValue = _.get(path, 'node.value', '').trim();
         if (!coreValue.length) return;
