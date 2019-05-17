@@ -10,6 +10,20 @@ const {
   LutManager,
 } = require('./lut');
 
+// Dont extract value for Literals under this attribute
+const checkForJsxAttributeBlacklist = (path) => {
+  const blacklistedJsxAttributes = [
+    // React router
+    'path', 'from', 'to',
+  ];
+  const jsxAttributeParent = path.findParent(p => p.isJSXAttribute());
+  if (!jsxAttributeParent) return false;
+  const name = _.get(jsxAttributeParent, 'node.name.name');
+  if (blacklistedJsxAttributes.includes(name)) return true;
+  return false;
+};
+
+
 const extractValueAndUpdateTable = (t, table, path, key) => {
   if (t.isStringLiteral(path.node)) {
     const { value } = path.node;
@@ -75,6 +89,8 @@ module.exports = ({ types: t }) => ({
 
         // Ignore CSS strings
         if (_.get(firstJsxParent, 'node.openingElement.name.name') === 'style') return;
+
+        if (checkForJsxAttributeBlacklist(path)) return;
 
         const { expressions, quasis } = path.node;
         expressions.forEach((expression) => {
