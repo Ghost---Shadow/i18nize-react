@@ -8,9 +8,9 @@ const {
 const isBlacklistedForJsxAttribute = (path) => {
   const blacklistedJsxAttributes = [
     // React router
-    'path', 'from', 'to',
+    'path', 'from', 'to', 'href', 'as',
     // Inline style
-    'style', 'className',
+    'style', 'className', 'color',
   ];
   const jsxAttributeParent = path.findParent(p => p.isJSXAttribute());
   if (!jsxAttributeParent) return false;
