@@ -1,3 +1,4 @@
+const babel = require('@babel/core');
 const _ = require('lodash');
 
 const {
@@ -11,6 +12,8 @@ const isBlacklistedForJsxAttribute = (path) => {
     'path', 'from', 'to', 'href', 'as',
     // Inline style
     'style', 'className', 'color',
+    // Code
+    'dangerouslySetInnerHTML', 'src',
   ];
   const jsxAttributeParent = path.findParent(p => p.isJSXAttribute());
   if (!jsxAttributeParent) return false;
@@ -35,7 +38,14 @@ const handleConditionalExpressions = (path) => {
   if (!coreValue.length) return;
   const kValue = getUniqueKeyFromFreeText(coreValue);
   // TODO: OPTIMIZATION: Use quasi quotes to optimize this
-  path.replaceWithSourceString(`i18n.t(k.${kValue})`);
+
+  const srcString = `i18n.t(k.${kValue})`;
+  if (babel.types.isJSXAttribute(path.parent)) {
+    // TODO: The next line does not parse
+    // path.replaceWithSourceString(`{${srcString}}`);
+  } else {
+    path.replaceWithSourceString(srcString);
+  }
 };
 
 module.exports = {
