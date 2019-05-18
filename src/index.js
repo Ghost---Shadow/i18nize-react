@@ -70,7 +70,7 @@ if (fs.existsSync(path.join(path.resolve(inputDir), `${sourceDir}/i18n/english.j
   LutManager.setLut(oldLut);
 }
 
-const allFiles = walk(path.resolve(inputDir));
+const allFiles = walk(path.join(path.resolve(inputDir), sourceDir));
 
 allFiles.forEach(fileName => transformFile(fileName));
 
