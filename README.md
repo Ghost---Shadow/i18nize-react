@@ -42,6 +42,8 @@ Create an issue ticket with a before and after code snippets, before writing any
 
 For bugs create a minimum reproducible piece of code with original, received and expected snippets.
 
+Make sure to read [wont-fix.md](./wont-fix.md).
+
 ## Troubleshooting
 
 1. Sometimes `i18ize-react` might conflict with the babel plugins installed in your project. If that happens go up one folder (`cd ..`) and then run `i18ize-react ./your-dir ./your-dir`
