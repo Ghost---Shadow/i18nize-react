@@ -50,27 +50,3 @@ const MyComponent = () => (
   <div>{i18n.t(k._)}{someLiteral}{i18n.t(k._1)}</div>
 )
 ```
-
-## Dangerously set HTML (false positive)
-
-### Before
-```js
-const MyComponent = (msg) => (
-  <script
-    dangerouslySetInnerHTML={{
-      __html: `alert(${msg});`
-    }} />
-)
-```
-
-### After
-```js
-const MyComponent = (msg) => (
-  <script
-    dangerouslySetInnerHTML={{
-      __html: `${i18n.t(k.ALERT)}${msg}${i18n.t(k._)}`
-    }} />
-)
-```
-
-
