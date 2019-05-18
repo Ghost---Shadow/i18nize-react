@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.7.1
+
+* Added to JSXAttributes to blacklist `className`, `color`, `href`, `as`
+* Only traverse the source dir
+
 ## 0.7.0
 
 * Babel generator now tries to maintain lines (`retainLines`)
