@@ -65,3 +65,5 @@ const MyComponent = () => {
   )
 }
 ```
+
+4. **TIP:** Babel's parse and generate often shifts code around which causes files, with no programatic change, to show up in git diff. Sometimes running the linter alone does not fix this problem. A good way to fix this problem is to do a dry run `i18nize-react ./ ./ src true`, run your linter and commit the code. Now run `i18nize-react` to run the transform and lint again. Now only the transformed changes should show up in git diff.

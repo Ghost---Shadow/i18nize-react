@@ -5,10 +5,15 @@ const x = {};
 x.y = {};
 x.y.z = i18n.t(k.WORLD);
 
+a.name = 'string1';
+a.b.name = i18n.t(k.STRING);
+
 const MyComponent = () =>
 <div>
     {a.b.c.d}
     {x.y.z}
+    {a.name}
+    {a.b.name}
   </div>;
 
 

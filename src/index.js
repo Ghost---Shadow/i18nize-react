@@ -30,20 +30,24 @@ const transformFile = (fileName) => {
       plugins: parserPlugins,
     });
 
-    if (!isDry) { traverse(ast, myPlugin(babel).visitor); }
-    // Convert all the ~/i18n/keys to <workplace_dir>/src/i18n/keys
-    const state = {
-      file: {
-        opts: {
-          sourceRoot: path.resolve(inputDir),
-          filename: fileName,
+    if (!isDry) {
+      // Run the plugin
+      traverse(ast, myPlugin(babel).visitor);
+
+      // Convert all the ~/i18n/keys to <workplace_dir>/src/i18n/keys
+      const state = {
+        file: {
+          opts: {
+            sourceRoot: path.resolve(inputDir),
+            filename: fileName,
+          },
         },
-      },
-      opts: {
-        sourceDir,
-      },
-    };
-    traverse(ast, relativeImportPlugin(babel).visitor, null, state);
+        opts: {
+          sourceDir,
+        },
+      };
+      traverse(ast, relativeImportPlugin(babel).visitor, null, state);
+    }
 
     const { code } = generate(ast, generatorOptions);
 
@@ -70,7 +74,7 @@ const allFiles = walk(path.resolve(inputDir));
 
 allFiles.forEach(fileName => transformFile(fileName));
 
-generateI18nFiles(outputDir, sourceDir);
+if (!isDry) generateI18nFiles(outputDir, sourceDir);
 
 if (isDry) {
   console.log('Successfully did a dry walk');
