@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.8.0
+
+* Fixed crash for JSX in ternary operators
+* Ignoring dangerouslySetInnerHtml and src attributes
+
 ## 0.7.1
 
 * Added to JSXAttributes to blacklist `className`, `color`, `href`, `as`
