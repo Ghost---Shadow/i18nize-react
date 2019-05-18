@@ -1,7 +1,7 @@
 import React from 'react';
 
-const SomeComponent = () => (
-  <div>
+const SomeComponent = (isWhite, showTitle) => (
+  <div className={isWhite ? 'white' : 'black'}>
     <div style={{
       margin: '10px',
       border: '1px solid white',
