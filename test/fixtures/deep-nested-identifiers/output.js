@@ -5,7 +5,7 @@ const x = {};
 x.y = {};
 x.y.z = i18n.t(k.WORLD);
 
-a.name = 'string1';
+a.name = i18n.t(k.STRING);
 a.b.name = i18n.t(k.STRING);
 
 const MyComponent = () =>

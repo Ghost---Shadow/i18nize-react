@@ -5,8 +5,8 @@ import React from 'react';
 const vegetables = ['potato', 'tomato', 'cabbage'];
 const fridge = [
 {
-  name: 'potato',
-  description: 'large potato' },
+  name: i18n.t(k.POTATO2),
+  description: i18n.t(k.LARGE_POTATO) },
 
 {
   name: i18n.t(k.TOMATO1),

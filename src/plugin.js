@@ -18,7 +18,9 @@ const {
 const extractValueAndUpdateTable = (t, table, path, key) => {
   if (t.isStringLiteral(path.node)) {
     const { value } = path.node;
-    table[key] = _.merge(table[key], { path, value });
+    if (!table[key]) table[key] = {};
+    if (!table[key].pairs) table[key].pairs = [];
+    table[key].pairs.push({ path, value });
   }
 };
 
@@ -32,20 +34,22 @@ module.exports = ({ types: t }) => ({
         this.alreadyImportedi18n = false;
         LutManager.resetGetUniqueKeyFromFreeTextNumCalls();
       },
-      exit(path) {
+      exit(programPath) {
         Object.keys(this.state).forEach((key) => {
-          if (this.state[key].valid && this.state[key].value && this.state[key].path) {
-            // TODO: OPTIMIZATION: Use quasi quotes to optimize this
-            const kValue = getUniqueKeyFromFreeText(this.state[key].value);
-            this.state[key].path.replaceWithSourceString(`i18n.t(k.${kValue})`);
+          if (this.state[key].valid && this.state[key].pairs) {
+            this.state[key].pairs.forEach(({ path, value }) => {
+              // TODO: OPTIMIZATION: Use quasi quotes to optimize this
+              const kValue = getUniqueKeyFromFreeText(value);
+              path.replaceWithSourceString(`i18n.t(k.${kValue})`);
+            });
           }
         });
         // Do not add imports if there is no replaceable text
         // in this file
         if (LutManager.getUniqueKeyFromFreeTextNumCalls > 0) {
-          if (!this.alreadyImportedK) path.node.body.unshift(_.cloneDeep(kImportStatement));
+          if (!this.alreadyImportedK) programPath.node.body.unshift(_.cloneDeep(kImportStatement));
           if (!this.alreadyImportedi18n) {
-            path.node.body
+            programPath.node.body
               .unshift(_.cloneDeep(i18nextImportStatement));
           }
         }
