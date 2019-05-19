@@ -8,8 +8,7 @@ import api from './api';
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      stuff: i18n.t(k.SRC_APP_JS) };
+    this.state = { stuff: i18n.t(k.SRC_APP_JS) };
 
     this.thisHardcodedString = i18n.t(k.ANOTHER_STRING);
   }
@@ -20,9 +19,7 @@ class App extends Component {
   }
 
   render() {
-    const {
-      stuff } =
-    this.state;
+    const { stuff } = this.state;
     const hardCodedString = i18n.t(k.SOME_STRING);
     return (
       <div className="App">
