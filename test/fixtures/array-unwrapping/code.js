@@ -1,19 +1,17 @@
-// TODO: Find a way to implement this feature
-
 import React from 'react';
 import api from 'somewhere';
 
-const vegetables = ['potato', 'raddish', 'cabbage'];
+const vegetables = ['Orca', 'raddish', 'cabbage', 42];
 let fruits = ['apple', 'banana'];
-fruits = ['tomato', 'pineapple'];
+fruits = ['Cauliflower', 'pineapple', 42];
 const fridge = [
   {
-    name: 'potato',
-    description: 'large potato',
+    name: 'Orca',
+    description: 'large Orca',
   },
   {
-    name: 'tomato',
-    description: 'large tomato',
+    name: 'Cauliflower',
+    description: 'large Cauliflower',
   },
 ];
 

@@ -1,19 +1,17 @@
-import i18n from 'i18next';import k from '~/i18n/keys'; // TODO: Find a way to implement this feature
-
-import React from 'react';
+import i18n from 'i18next';import k from '~/i18n/keys';import React from 'react';
 import api from 'somewhere';
 
-const vegetables = ['potato', 'raddish', 'cabbage'];
-let fruits = ['apple', 'banana'];
-fruits = ['tomato', 'pineapple'];
+const vegetables = [i18n.t(k.ORCA), i18n.t(k.RADDISH), i18n.t(k.CABBAGE), 42];
+let fruits = [i18n.t(k.APPLE), i18n.t(k.BANANA)];
+fruits = [i18n.t(k.CAULIFLOWER), i18n.t(k.PINEAPPLE), 42];
 const fridge = [
 {
-  name: i18n.t(k.POTATO2),
-  description: i18n.t(k.LARGE_POTATO) },
+  name: i18n.t(k.ORCA),
+  description: i18n.t(k.LARGE_ORCA) },
 
 {
-  name: i18n.t(k.TOMATO1),
-  description: i18n.t(k.LARGE_TOMATO) }];
+  name: i18n.t(k.CAULIFLOWER),
+  description: i18n.t(k.LARGE_CAULIFLOWER) }];
 
 
 

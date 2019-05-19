@@ -15,12 +15,20 @@ const {
   handleConditionalExpressions,
 } = require('./plugin-helpers');
 
+const handleStringLiteral = (path, table, key) => {
+  const { value } = path.node;
+  if (!table[key]) table[key] = {};
+  if (!table[key].pairs) table[key].pairs = [];
+  table[key].pairs.push({ path, value });
+};
+
 const extractValueAndUpdateTable = (t, table, path, key) => {
   if (t.isStringLiteral(path.node)) {
-    const { value } = path.node;
-    if (!table[key]) table[key] = {};
-    if (!table[key].pairs) table[key].pairs = [];
-    table[key].pairs.push({ path, value });
+    handleStringLiteral(path, table, key);
+  } else if (t.isArrayExpression(path.node)) {
+    path.get('elements').forEach((element) => {
+      if (t.isStringLiteral(element.node)) handleStringLiteral(element, table, key);
+    });
   }
 };
 
