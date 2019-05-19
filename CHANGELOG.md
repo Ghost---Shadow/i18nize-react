@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.9.0
+
+* Array of objects now work correctly
+* Array of strings now work correctly
+
 ## 0.8.0
 
 * Fixed crash for JSX in ternary operators
