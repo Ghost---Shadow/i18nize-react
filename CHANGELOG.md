@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.10.2
+
+* Added `coverage/*` to `.npmignore`
+* Added `.eslintignore` to `.npmignore`
+* Added `.eslintrc.js` to `.npmignore`
+* Added `.vscode/settings.json` to `.npmignore`
+
 ## 0.10.1
 
 * Added `test/*` to `.npmignore`
