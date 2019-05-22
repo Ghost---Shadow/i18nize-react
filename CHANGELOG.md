@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.10.1
+
+* Added `test/*` to `.npmignore`
+
 ## 0.10.0
 
 * Added typescript files to the walker whitelist `.ts` and `.tsx`
