@@ -1,1 +1,5 @@
 test/*
+coverage/*
+.eslintignore
+.eslintrc.js
+.vscode/settings.json
