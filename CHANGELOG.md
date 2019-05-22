@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.10.0
+
+* Added typescript files to the walker whitelist `.ts` and `.tsx`
+
 ## 0.9.0
 
 * Array of objects now work correctly
