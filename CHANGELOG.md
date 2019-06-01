@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.10.3
+
+* Added a before each hook to the tests
+
 ## 0.10.2
 
 * Added `coverage/*` to `.npmignore`
