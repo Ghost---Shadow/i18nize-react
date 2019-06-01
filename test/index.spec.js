@@ -1,8 +1,10 @@
 const { create } = require('babel-test');
 const path = require('path');
-const plugin = require('../src/plugin');
-const { parserPlugins, generatorOptions } = require('../src/used-plugins');
 const { toMatchFile } = require('jest-file-snapshot');
+
+const plugin = require('../src/plugin');
+const { LutManager } = require('../src/lut');
+const { parserPlugins, generatorOptions } = require('../src/used-plugins');
 
 expect.extend({ toMatchFile });
 const { fixtures } = create({
@@ -13,4 +15,8 @@ const { fixtures } = create({
   generatorOpts: generatorOptions,
 });
 
-fixtures('i18ize', path.join(__dirname, 'fixtures'));
+fixtures('i18ize', path.join(__dirname, 'fixtures'), {
+  beforeEach() {
+    LutManager.clearLut();
+  },
+});

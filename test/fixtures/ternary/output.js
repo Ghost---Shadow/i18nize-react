@@ -1,7 +1,7 @@
 import i18n from 'i18next';import k from '~/i18n/keys';import React from 'react';
 import api from './api';
 
-const p = i18n.t(k.POTATO1);
+const p = i18n.t(k.POTATO);
 const isPotato = i18n.t(k.ISPOTATO);
 
 const val = true;
