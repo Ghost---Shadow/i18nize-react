@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.10.4
+
+* Bump lodash because vulnerability
+
 ## 0.10.3
 
 * Added a before each hook to the tests
