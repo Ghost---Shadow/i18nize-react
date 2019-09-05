@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.11.0
+
+* Ignore typescript test files
+
 ## 0.10.4
 
 * Bump lodash because vulnerability
