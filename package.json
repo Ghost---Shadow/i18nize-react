@@ -60,11 +60,13 @@
   "jest": {
     "testPathIgnorePatterns": [
       "/node_modules/",
-      "/scratchpad"
+      "/scratchpad",
+      "/test/walking_test"
     ],
     "watchPathIgnorePatterns": [
       "fixtures/*",
-      "__file_snapshots__"
+      "__file_snapshots__",
+      "/test/walking_test"
     ]
   },
   "husky": {

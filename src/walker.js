@@ -8,7 +8,7 @@ const checkIfDirectoryShouldBeIgnored = fullPath => !!fullPath
 // TODO: Ignore all directories listed in .gitignore
 const checkIfFileShouldBeIgnored = (fullPath) => {
   const hasJsExtension = fullPath.trim().match(/\.[jt]sx?$/);
-  const isTestFile = fullPath.trim().match(/(test.jsx?|spec.jsx?)/);
+  const isTestFile = fullPath.trim().match(/(test.[jt]sx?|spec.[jt]sx?)/);
 
   return !(hasJsExtension && !isTestFile);
 };
