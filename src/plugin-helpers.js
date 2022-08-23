@@ -14,6 +14,14 @@ const isBlacklistedForJsxAttribute = (path) => {
     'style', 'className', 'color',
     // Code
     'dangerouslySetInnerHTML', 'src',
+    // custom
+    'width', 'variant', 'dataTestId', 'borderRadius', 'id', 'alt', 'background', 'link', 'ariaLabel',
+    'aria-label', 'alignItems', 'onMouseEnter', 'data-test-id', 'paddingLeft', 'maxWidth', 'padding',
+    'marginTop', 'horizontal', 'vertical', 'anchorOrigin', 'transformOrigin', 'PaperProps', 'navigate',
+    '$overflowY', 'shortLivedTokenExpiredAction', 'height', 'field', 'active', 'emoji', 'trackInHeap', 
+    'onClick', 'paddingTop', 'icon', 'key', 'HelperTextProps', 'permissions', 'path',
+    'featureFlag', 'unauthenticatedAction', 'minWidth','paperProps', 'paddingBottom', 'paddingRight'
+
   ];
   const jsxAttributeParent = path.findParent(p => p.isJSXAttribute());
   if (!jsxAttributeParent) return false;
@@ -22,6 +30,45 @@ const isBlacklistedForJsxAttribute = (path) => {
   return false;
 };
 
+const handleBlacklistedNode = (path) => {
+  const blacklistValue = [
+    '/app/organise'
+
+  ];
+
+  if (blacklistValue.includes(path.node.value)) return true;
+
+
+}
+
+const handleBlackListKey  = (key) => {
+  const blacklistValue = [
+    'kind'
+
+  ];
+
+  if (blacklistValue.includes(key)) return true;
+}
+
+const handleBlackListValue  = (key) => {
+  const blacklistValue = [
+    '/app/measure?show=ghg-protocol-upload'
+
+  ];
+
+  if (blacklistValue.includes(key)) return true;
+}
+
+
+
+const handleBlackListVariable= (key) => {
+  const blacklistValues = [
+    'padding2Px', 'borderRadiusPx','maxWidth', 'columnWidths', 'dispatch'
+  ];
+
+  if (blacklistValues.includes(key)) return true;
+  if (blacklistValues.includes(key.name)) return true;
+}
 
 const handleConditionalExpressions = (path) => {
   // For ternary operators
@@ -48,7 +95,16 @@ const handleConditionalExpressions = (path) => {
   }
 };
 
+const handleURLInlitterals = (value) => {
+ if (value.startsWith('/')) return true
+}
+
 module.exports = {
   isBlacklistedForJsxAttribute,
   handleConditionalExpressions,
+  handleBlacklistedNode,
+  handleBlackListVariable,
+  handleBlackListKey,
+  handleBlackListValue,
+  handleURLInlitterals,
 };
