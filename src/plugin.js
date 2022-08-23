@@ -13,9 +13,9 @@ const {
 const {
   isBlacklistedForJsxAttribute,
   handleConditionalExpressions,
-  handleBlacklistedNode,
-  handleBlackListVariable,
+  handleURLInlitterals,
   handleBlackListKey,
+  handleBlackListVariable,
   handleBlackListValue,
 } = require('./plugin-helpers');
 
@@ -23,14 +23,13 @@ const handleStringLiteral = (path, table, key) => {
   const { value } = path.node;
   if (!table[key]) table[key] = {};
   if (!table[key].pairs) table[key].pairs = [];
-  if(handleBlackListVariable(path)) return
+  if (handleURLInlitterals(value)) return
+  if (handleBlackListKey(key));
   if(handleBlackListValue(value)) return
-
   table[key].pairs.push({ path, value });
 };
 
 const extractValueAndUpdateTable = (t, table, path, key) => {
-  if(handleBlackListKey(key)) return
   if (t.isStringLiteral(path.node)) {
     handleStringLiteral(path, table, key);
   } else if (t.isArrayExpression(path.node)) {
@@ -51,11 +50,14 @@ module.exports = ({ types: t }) => ({
         LutManager.resetGetUniqueKeyFromFreeTextNumCalls();
       },
       exit(programPath) {
-        Object.keys(this.state).forEach((key) => {w
+        Object.keys(this.state).forEach((key) => {
           if (this.state[key].valid && this.state[key].pairs) {
             this.state[key].pairs.forEach(({ path, value }) => {
               // TODO: OPTIMIZATION: Use quasi quotes to optimize this
               const kValue = getUniqueKeyFromFreeText(value);
+              if (kValue ==='CANEDITTREE'){
+                console.log(">>>>>>>>2")
+              }
               path.replaceWithSourceString(`i18n.t(k.${kValue})`);
             });
           }
@@ -104,8 +106,11 @@ module.exports = ({ types: t }) => ({
         if (isBlacklistedForJsxAttribute(path)) return;
 
         const { expressions, quasis } = path.node;
+      
         expressions.forEach((expression) => {
+     
           const key = expression.name;
+        
           this.state[key] = _.merge(this.state[key], { valid: true });
         });
         quasis.forEach((templateElement, index) => {
@@ -115,6 +120,7 @@ module.exports = ({ types: t }) => ({
             const kValue = getUniqueKeyFromFreeText(coreValue);
             // TODO: OPTIMIZATION: Use quasi quotes to optimize this
             // TODO: Replace the path instead of modifying the raw
+        
             qPath.node.value.raw = qPath.node.value.raw.replace(coreValue, `\${i18n.t(k.${kValue})}`);
             qPath.node.value.cooked = qPath.node.value.cooked.replace(coreValue, `\${i18n.t(k.${kValue})}`);
           }
@@ -126,7 +132,6 @@ module.exports = ({ types: t }) => ({
         // TODO: Explore the reason behind crash
         const key = _.get(path, 'node.left.name', _.get(path, 'node.left.property.name'));
         if (!key) return;
-        if(handleBlackListVariable(key)) return;
         extractValueAndUpdateTable(t, this.state, path.get('right'), key);
       },
     },
@@ -137,7 +142,7 @@ module.exports = ({ types: t }) => ({
 
         // Check for blacklist
         if (isBlacklistedForJsxAttribute(path)) return;
-
+        if(handleBlackListKey(key)) return
         extractValueAndUpdateTable(t, this.state, path.get('value'), key);
       },
     },
@@ -146,7 +151,7 @@ module.exports = ({ types: t }) => ({
         // TODO: Explore the reason behind crash
         const key = _.get(path, 'node.id.name');
         if (!key) return;
-        //console.log()
+
         // Check for blacklist
         if (isBlacklistedForJsxAttribute(path)) return;
         if (handleBlackListVariable(key)) return;
@@ -165,7 +170,6 @@ module.exports = ({ types: t }) => ({
     StringLiteral: {
       enter(path) {
         handleConditionalExpressions(path);
-        handleBlacklistedNode(path)
       },
     },
   },
