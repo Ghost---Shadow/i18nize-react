@@ -25,7 +25,9 @@ const isBlacklistedForJsxAttribute = (path) => {
     'offsetforonboardingsurvey', 'mobile', 'headerpresent', 'footerpresent', 'nohoverunderlined', 'edition',
     'underlined', 'keyDataTestId', 'margin', 'maxHeight', 'top', 'position', 'placement', 'align',
     'textAlign', 'rootMargin', 'setAnswer', 'onValueChange', 'onChange', 'editImportsUrl','InputProps',
-    'selectedCategory', 'setSelectedCategory', 'boxSizing'
+    'selectedCategory', 'setSelectedCategory', 'boxSizing', 'p', 'size', 'mt', 'keyTestId', 'panelTitleVariant',
+    'cursor', 'storageKey', 'emoj', 'selectedEmissionFactor', 'track', 'color', 'justifyContent', 'inputVariant', 'updatedData',
+    'dataTestIdRedirection', '$height',
 
   ];
   const jsxAttributeParent = path.findParent(p => p.isJSXAttribute());
@@ -56,8 +58,8 @@ const handleBlackListKey  = (key) => {
 
 const handleBlackListValue  = (key) => {
   const blacklistValues = [
-    '/app/measure?show=ghg-protocol-upload', 'canEditTree', 'canEditOwnApiKey', 'canEditSegment', 'market_based', 
-    '+99', 'edit-track', 'all-tracks', '45%', '12.5%', '12.5%', '17.5%', '12.5%', '0%',
+    '/app/measure?show=ghg-protocol-upload', 'canEditTree', 'canEditOwnApiKey', 'canEditSegment', 'canEditCustomEmissionFactor' ,'canEditInitiative', 'canEditTarget', 'canEditEmissionIncrease', 'market_based', 
+    '+99', 'edit-track', 'all-tracks', '45%', '12.5%', '12.5%', '17.5%', '12.5%', '0%','4%', '29%', '14%', '13%', '13%', '13%', '14%', '55%', '15%', '30%', '24%', '4%', '#DFE5F1', '#F7E9C5', '#E6F0F4',
 
   ];
 
@@ -71,7 +73,7 @@ const handleBlackListVariable= (key) => {
     'padding2Px', 'borderRadiusPx','maxWidth', 'columnWidths', 'dispatch', 'emoji', 'scopesColWidth',
     'emissionsColWidth', 'tco2eColWidth', 'totalColWidth', 'columnSizes', 'roleColumnSizes', 'RulesListTableColumnSizes', 
     'editImportsUrl', 'columnReportSizes', 'columnsWidth', 'InitiativesTableColumnSizes', 'ContributionTableColumnSizes', 
-    'SwSweepnitorAssessmentsList',
+    'SwSweepnitorAssessmentsList', 'color'
   ];
 
   if (blacklistValues.includes(key)) return true;
