@@ -24,9 +24,11 @@ const handleStringLiteral = (path, table, key) => {
   if (!table[key]) table[key] = {};
   if (!table[key].pairs) table[key].pairs = [];
   if (handleURLInlitterals(value)) return
-  if (handleBlackListKey(key));
+  if (handleBlackListKey(key)) return;
   if(handleBlackListValue(value)) return
+  console.log(table[key].pairs.length)
   table[key].pairs.push({ path, value });
+  console.log(table[key].pairs.length)
 };
 
 const extractValueAndUpdateTable = (t, table, path, key) => {

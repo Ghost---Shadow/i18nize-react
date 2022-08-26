@@ -27,7 +27,7 @@ const isBlacklistedForJsxAttribute = (path) => {
     'textAlign', 'rootMargin', 'setAnswer', 'onValueChange', 'onChange', 'editImportsUrl','InputProps',
     'selectedCategory', 'setSelectedCategory', 'boxSizing', 'p', 'size', 'mt', 'keyTestId', 'panelTitleVariant',
     'cursor', 'storageKey', 'emoj', 'selectedEmissionFactor', 'track', 'color', 'justifyContent', 'inputVariant', 'updatedData',
-    'dataTestIdRedirection', '$height',
+    'dataTestIdRedirection', '$height', 'active'
 
   ];
   const jsxAttributeParent = path.findParent(p => p.isJSXAttribute());
