@@ -27,7 +27,7 @@ const isBlacklistedForJsxAttribute = (path) => {
     'textAlign', 'rootMargin', 'setAnswer', 'onValueChange', 'onChange', 'editImportsUrl','InputProps',
     'selectedCategory', 'setSelectedCategory', 'boxSizing', 'p', 'size', 'mt', 'keyTestId', 'panelTitleVariant',
     'cursor', 'storageKey', 'emoj', 'selectedEmissionFactor', 'track', 'color', 'justifyContent', 'inputVariant', 'updatedData',
-    'dataTestIdRedirection', '$height', 'active'
+    'dataTestIdRedirection', '$height', 'active', 'bgColor', 'pl', 'direction', 'target', 'getProps'
 
   ];
   const jsxAttributeParent = path.findParent(p => p.isJSXAttribute());
@@ -73,7 +73,7 @@ const handleBlackListVariable= (key) => {
     'padding2Px', 'borderRadiusPx','maxWidth', 'columnWidths', 'dispatch', 'emoji', 'scopesColWidth',
     'emissionsColWidth', 'tco2eColWidth', 'totalColWidth', 'columnSizes', 'roleColumnSizes', 'RulesListTableColumnSizes', 
     'editImportsUrl', 'columnReportSizes', 'columnsWidth', 'InitiativesTableColumnSizes', 'ContributionTableColumnSizes', 
-    'SwSweepnitorAssessmentsList', 'color'
+    'SwSweepnitorAssessmentsList', 'color', 'dataTestIdRedirection'
   ];
 
   if (blacklistValues.includes(key)) return true;

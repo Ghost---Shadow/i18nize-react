@@ -26,9 +26,7 @@ const handleStringLiteral = (path, table, key) => {
   if (handleURLInlitterals(value)) return
   if (handleBlackListKey(key)) return;
   if(handleBlackListValue(value)) return
-  console.log(table[key].pairs.length)
   table[key].pairs.push({ path, value });
-  console.log(table[key].pairs.length)
 };
 
 const extractValueAndUpdateTable = (t, table, path, key) => {
@@ -57,9 +55,7 @@ module.exports = ({ types: t }) => ({
             this.state[key].pairs.forEach(({ path, value }) => {
               // TODO: OPTIMIZATION: Use quasi quotes to optimize this
               const kValue = getUniqueKeyFromFreeText(value);
-              if (kValue ==='CANEDITTREE'){
-                console.log(">>>>>>>>2")
-              }
+       
               path.replaceWithSourceString(`i18n.t(k.${kValue})`);
             });
           }
@@ -88,6 +84,7 @@ module.exports = ({ types: t }) => ({
     },
     Identifier: {
       enter(path) {
+        console.log("> Identifier")
         // Only extract the value of identifiers
         // who are children of some JSX element
         if (path.findParent(p => p.isJSXElement())) {
@@ -97,6 +94,7 @@ module.exports = ({ types: t }) => ({
     },
     TemplateLiteral: {
       enter(path) {
+        console.log("> TemplateLiteral")
         // Only extract the value of identifiers
         // who are children of some JSX element
         const firstJsxParent = path.findParent(p => p.isJSXElement());
@@ -122,6 +120,7 @@ module.exports = ({ types: t }) => ({
             const kValue = getUniqueKeyFromFreeText(coreValue);
             // TODO: OPTIMIZATION: Use quasi quotes to optimize this
             // TODO: Replace the path instead of modifying the raw
+            
         
             qPath.node.value.raw = qPath.node.value.raw.replace(coreValue, `\${i18n.t(k.${kValue})}`);
             qPath.node.value.cooked = qPath.node.value.cooked.replace(coreValue, `\${i18n.t(k.${kValue})}`);
@@ -131,14 +130,18 @@ module.exports = ({ types: t }) => ({
     },
     AssignmentExpression: {
       enter(path) {
+        console.log("> AssignmentExpression")
         // TODO: Explore the reason behind crash
         const key = _.get(path, 'node.left.name', _.get(path, 'node.left.property.name'));
         if (!key) return;
+
+        if (handleBlackListVariable(key)) return;
         extractValueAndUpdateTable(t, this.state, path.get('right'), key);
       },
     },
     ObjectProperty: {
       enter(path) {
+        console.log("> ObjectProperty")
         const key = _.get(path, 'node.key.name');
         if (!key) return;
 
@@ -150,6 +153,7 @@ module.exports = ({ types: t }) => ({
     },
     VariableDeclarator: {
       enter(path) {
+        console.log("> VariableDeclarator")
         // TODO: Explore the reason behind crash
         const key = _.get(path, 'node.id.name');
         if (!key) return;
@@ -162,6 +166,7 @@ module.exports = ({ types: t }) => ({
     },
     JSXText: {
       enter(path) {
+        console.log("> JSXText")
         const coreValue = _.get(path, 'node.value', '').trim();
         if (!coreValue.length) return;
         const kValue = getUniqueKeyFromFreeText(coreValue);
@@ -171,6 +176,8 @@ module.exports = ({ types: t }) => ({
     },
     StringLiteral: {
       enter(path) {
+        console.log("> StringLiteral")
+
         handleConditionalExpressions(path);
       },
     },
