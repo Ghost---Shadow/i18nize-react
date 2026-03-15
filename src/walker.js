@@ -16,7 +16,7 @@ const checkIfFileShouldBeIgnored = (fullPath) => {
 const walk = (rootDir, allFiles = []) => {
   const files = fs.readdirSync(rootDir);
   files.forEach((file) => {
-    const fullPath = path.join(rootDir, file);
+    const fullPath = path.join(rootDir, file).split(path.sep).join('/');
     if (fs.statSync(fullPath).isDirectory()) {
       if (!checkIfDirectoryShouldBeIgnored(fullPath)) {
         walk(fullPath, allFiles);
