@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 class Checkbox extends Component {
   static propTypes = {
     label: PropTypes.string.isRequired,
-    handleCheckboxChange: PropTypes.func.isRequired };
-
+    handleCheckboxChange: PropTypes.func.isRequired
+  };
 
   render() {
     return (
@@ -13,7 +13,7 @@ class Checkbox extends Component {
         {i18n.t(k.SOME_TEXT)}
       </div>);
 
-  }}
-
+  }
+}
 
 export default Checkbox;

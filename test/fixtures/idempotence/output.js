@@ -39,7 +39,7 @@ class App extends Component {
         </p>
       </div>);
 
-  }}
-
+  }
+}
 
 export default App;

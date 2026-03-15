@@ -6,12 +6,12 @@ const App = ({ someVal, someHandle }) =>
   <div>{i18n.t(k.SOME_TEXT)}</div> :
 
   <div
-  someAttr="sad"
-  someAtt2r={i18n.t(k.SADER)}>
-
+    someAttr="sad"
+    someAtt2r={i18n.t(k.SADER)}>
+    
         {i18n.t(k.SOME_OTHER_TEXT)}
-      </div>}
-
+      </div>
+  }
   </div>;
 
 

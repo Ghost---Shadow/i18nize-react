@@ -7,8 +7,8 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      stuff: i18n.t(k.SRC_APP_JS) };
-
+      stuff: i18n.t(k.SRC_APP_JS)
+    };
     this.thisHardcodedString = i18n.t(k.ANOTHER_STRING);
   }
 
@@ -41,7 +41,7 @@ class App extends Component {
         </p>
       </div>);
 
-  }}
-
+  }
+}
 
 export default App;

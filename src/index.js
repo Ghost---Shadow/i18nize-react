@@ -2,8 +2,6 @@
 
 const fs = require('fs');
 const path = require('path');
-const mkdirp = require('mkdirp');
-
 const babel = require('@babel/core');
 const { default: generate } = require('@babel/generator');
 const parser = require('@babel/parser');
@@ -53,7 +51,7 @@ const transformFile = (fileName) => {
 
     const relativePath = path.relative(inputDir, fileName);
     const outputFilePath = path.join(outputDir, relativePath);
-    mkdirp.sync(path.dirname(outputFilePath));
+    fs.mkdirSync(path.dirname(outputFilePath), { recursive: true });
     fs.writeFileSync(outputFilePath, code);
   } catch (err) {
     console.error('Error for file:', fileName);
@@ -65,7 +63,6 @@ const transformFile = (fileName) => {
 // discard the table generated from the first run
 if (fs.existsSync(path.join(path.resolve(inputDir), `${sourceDir}/i18n/english.js`))) {
   console.log('english.js exists');
-  // eslint-disable-next-line
   const oldLut = require(path.join(path.resolve(inputDir), `${sourceDir}/i18n/english`));
   LutManager.setLut(oldLut);
 }
