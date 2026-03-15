@@ -12,8 +12,7 @@
     "lint:fix": "eslint ./src --fix",
     "test": "jest",
     "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage",
-    "prepare": "husky"
+    "test:coverage": "jest --coverage"
   },
   "repository": {
     "type": "git",
@@ -43,7 +42,6 @@
     "eslint": "^9.21.0",
     "eslint-plugin-react": "^7.37.0",
     "globals": "^16.0.0",
-    "husky": "^9.1.0",
     "jest": "^29.7.0",
     "jest-file-snapshot": "^0.7.0",
     "react-test-renderer": "^18.3.1"
