@@ -1,6 +1,6 @@
 const parserPlugins = [
   'jsx',
-  'classProperties', // '@babel/plugin-transform-class-properties',
+  'classProperties',
   'flow',
 ];
 

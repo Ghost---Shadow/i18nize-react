@@ -1,25 +1,24 @@
-const babel = require('@babel/core');
-const _ = require('lodash');
+const { types: t } = require('@babel/core');
 
 const {
   getUniqueKeyFromFreeText,
 } = require('./lut');
 
+const BLACKLISTED_JSX_ATTRIBUTES = [
+  // React router
+  'path', 'from', 'to', 'href', 'as',
+  // Inline style
+  'style', 'className', 'color',
+  // Code
+  'dangerouslySetInnerHTML', 'src',
+];
+
 // Dont extract value for Literals under this attribute
 const isBlacklistedForJsxAttribute = (path) => {
-  const blacklistedJsxAttributes = [
-    // React router
-    'path', 'from', 'to', 'href', 'as',
-    // Inline style
-    'style', 'className', 'color',
-    // Code
-    'dangerouslySetInnerHTML', 'src',
-  ];
   const jsxAttributeParent = path.findParent(p => p.isJSXAttribute());
   if (!jsxAttributeParent) return false;
-  const name = _.get(jsxAttributeParent, 'node.name.name');
-  if (blacklistedJsxAttributes.includes(name)) return true;
-  return false;
+  const name = jsxAttributeParent.node.name && jsxAttributeParent.node.name.name;
+  return BLACKLISTED_JSX_ATTRIBUTES.includes(name);
 };
 
 
@@ -34,13 +33,12 @@ const handleConditionalExpressions = (path) => {
   // Check for blacklist
   if (isBlacklistedForJsxAttribute(path)) return;
 
-  const coreValue = _.get(path, 'node.value', '').trim();
+  const coreValue = (path.node.value || '').trim();
   if (!coreValue.length) return;
   const kValue = getUniqueKeyFromFreeText(coreValue);
-  // TODO: OPTIMIZATION: Use quasi quotes to optimize this
 
   const srcString = `i18n.t(k.${kValue})`;
-  if (babel.types.isJSXAttribute(path.parent)) {
+  if (t.isJSXAttribute(path.parent)) {
     // TODO: The next line does not parse
     // path.replaceWithSourceString(`{${srcString}}`);
   } else {
@@ -51,4 +49,5 @@ const handleConditionalExpressions = (path) => {
 module.exports = {
   isBlacklistedForJsxAttribute,
   handleConditionalExpressions,
+  BLACKLISTED_JSX_ATTRIBUTES,
 };
